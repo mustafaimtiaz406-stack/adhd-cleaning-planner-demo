@@ -1,0 +1,2511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2F4A3A">
+<meta name="color-scheme" content="light">
+<title>ADHD Cleaning Planner — Free Demo</title>
+<style>
+:root{
+  --forest:#2F4A3A; --forest-2:#3D5E4A; --forest-ink:#F6F2E8;
+  --cream:#F7F3EA; --card:#FFFDF8; --sage:#E3EBDF; --sage-2:#CCDAC6;
+  --ink:#1F2B24; --muted:#536158; --line:#DCD6C8;
+  --accent:#9A5434; --accent-soft:#F4E6DB; --focus:#A85A35; --danger:#9B2F2F;
+  --nav-h:64px; --safe-b:env(safe-area-inset-bottom, 0px); --safe-t:env(safe-area-inset-top, 0px);
+  --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 var(--font);min-height:100vh;min-height:100dvh;overscroll-behavior-y:none;overflow-wrap:break-word;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:10px}
+h1[tabindex="-1"]:focus{outline:none}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- layout ---------- */
+.sidebar{display:none}
+main{max-width:640px;margin:0 auto;padding:calc(12px + var(--safe-t)) 16px calc(var(--nav-h) + var(--safe-b) + 28px)}
+body.has-minibar main{padding-bottom:calc(var(--nav-h) + var(--safe-b) + 96px)}
+.screen > * + *{margin-top:16px}
+.page-head{padding-top:8px}
+.title{font-family:var(--serif);font-weight:600;font-size:1.75rem;line-height:1.2;margin:0;color:var(--forest);overflow-wrap:anywhere}
+.lede{margin:6px 0 0;color:var(--muted)}
+.eyebrow{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0}
+.h2{font-family:var(--serif);font-size:1.25rem;margin:0;color:var(--forest);font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+p{margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.card-sage{background:var(--sage);border-color:var(--sage-2)}
+.stack > * + *{margin-top:10px}
+.topbar{display:flex;align-items:center;gap:8px;margin:0 0 4px -8px}
+.icon-btn{min-width:48px;min-height:48px;display:inline-grid;place-items:center;border:0;background:transparent;border-radius:12px;color:var(--forest)}
+.ic{display:inline-grid;place-items:center;width:22px;height:22px;flex:none}
+.ic svg{width:22px;height:22px}
+
+/* ---------- buttons ---------- */
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-width:48px;min-height:52px;padding:12px 16px;border-radius:14px;border:1.5px solid transparent;font-weight:650;font-size:1rem;line-height:1.25;text-align:center;text-decoration:none}
+.btn:disabled{opacity:.55;cursor:default}
+.btn-primary{background:var(--forest);color:var(--forest-ink)}
+.btn-primary:hover:not(:disabled){background:var(--forest-2)}
+.btn-secondary{background:var(--sage);color:var(--forest);border-color:var(--sage-2)}
+.btn-ghost{background:var(--card);color:var(--forest);border-color:var(--line)}
+.btn-quiet{background:transparent;color:var(--forest);text-decoration:underline;text-underline-offset:3px;min-height:48px;font-weight:600}
+.btn-danger{background:transparent;color:var(--danger);border-color:#E2C6C6}
+.btn-danger-solid{background:var(--danger);color:#fff}
+.btn-hero{min-height:96px;flex-direction:column;gap:4px;border-radius:20px;box-shadow:0 6px 18px rgba(47,74,58,.18)}
+.hero-t{font-family:var(--serif);font-size:1.4rem;font-weight:600}
+.hero-s{font-weight:500;font-size:.95rem;opacity:.92;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cta-row .btn{min-height:64px;flex-direction:column;gap:4px;padding:10px 8px}
+.btn-row{display:grid;gap:10px}
+.btn-row-2{grid-template-columns:1fr 1fr}
+
+/* ---------- home ---------- */
+.wins{display:flex;align-items:center;gap:8px;font-size:1.15rem;font-weight:650;color:var(--forest);margin-top:6px}
+.nudge{display:flex;gap:12px;align-items:flex-start}
+.nudge .ic{color:var(--accent);margin-top:2px}
+.nudge > div{min-width:0;flex:1}
+.nudge p{overflow-wrap:anywhere}
+.hero-s,.mb-label,.title,.step,.wins span{overflow-wrap:anywhere}
+.nudge-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.nudge-actions .btn{width:auto;min-width:48px;min-height:48px;padding:8px 14px;font-size:.95rem}
+
+/* ---------- segmented controls ---------- */
+.field-label{display:block;font-weight:650;margin:0 0 8px}
+.seg{display:grid;gap:8px}
+.seg-3{grid-template-columns:repeat(3,1fr)}
+.seg-4{grid-template-columns:repeat(4,1fr)}
+.seg-2{grid-template-columns:repeat(2,1fr)}
+.seg button{position:relative;min-height:60px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px}
+.seg button[aria-pressed="true"]{border-color:var(--forest);background:var(--sage);color:var(--forest)}
+.seg button[aria-pressed="true"]::after{content:"✓";position:absolute;top:4px;right:8px;font-size:.8rem;font-weight:800}
+.seg-sm button{min-height:48px}
+
+/* ---------- recommendation ---------- */
+.rec-card{padding:20px}
+.rec-title{font-size:1.6rem;margin-top:6px}
+.meta{display:flex;align-items:center;gap:6px;color:var(--muted);flex-wrap:wrap;margin-top:6px}
+.first-step{margin-top:16px;background:var(--sage);border-radius:14px;padding:14px}
+.step{font-size:1.15rem;font-weight:600;margin-top:4px;color:var(--ink);white-space:pre-wrap}
+
+/* ---------- lists ---------- */
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--sage);padding:4px;border-radius:14px}
+.tabs button{min-height:48px;border:0;border-radius:10px;background:transparent;font-weight:600;color:var(--forest);font-size:.95rem}
+.tabs button[aria-selected="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.list{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:8px;min-width:0}
+.row-main{flex:1;min-width:0;text-align:left;background:none;border:0;padding:12px 14px;min-height:60px;display:flex;flex-direction:column;justify-content:center;gap:2px;border-radius:14px 0 0 14px}
+.row-name{font-weight:650;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.row-meta{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.88rem;flex-wrap:wrap}
+.row-meta > span:not(.ic){flex:1 1 0;min-width:0}
+.row-meta .ic,.meta .ic{width:18px;height:18px}
+.row-status{font-size:.85rem;color:var(--forest);font-weight:600}
+.row.is-done .row-name{color:var(--muted)}
+.check{width:60px;flex:none;border:0;border-left:1px solid var(--line);background:none;display:grid;place-items:center;border-radius:0 14px 14px 0}
+.ring{width:30px;height:30px;border-radius:50%;border:2px solid var(--forest);display:grid;place-items:center;color:#fff}
+.ring .ic,.ring svg{width:18px;height:18px}
+.check[aria-pressed="true"] .ring{background:var(--forest)}
+.section-h{display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 8px}
+.empty{text-align:center;padding:24px 16px;color:var(--muted)}
+.empty .btn{margin-top:14px}
+.link-list{list-style:none;padding:0;margin:0}
+.link-item{display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:8px;text-align:left}
+.link-item .ic{color:var(--forest)}
+.link-item .li-t{font-weight:650;display:block}
+.link-item .li-s{font-size:.88rem;color:var(--muted);display:block}
+.li-body{flex:1;min-width:0}
+.chev{color:var(--muted)}
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.area-card{min-height:96px;text-align:left;padding:14px;border-radius:16px;border:1px solid var(--sage-2);background:var(--sage);display:flex;flex-direction:column;justify-content:space-between;gap:6px;min-width:0}
+.area-card .a-name{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--forest);overflow-wrap:anywhere}
+.area-card .a-meta{font-size:.88rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--sage);color:var(--forest);font-size:.88rem;font-weight:600}
+.chip .ic{width:16px;height:16px}
+.substeps{list-style:none;padding:0;margin:0}
+.substep{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:6px;text-align:left}
+.box{width:26px;height:26px;border-radius:8px;border:2px solid var(--forest);flex:none;display:grid;place-items:center;color:#fff}
+.substep[aria-checked="true"] .box{background:var(--forest)}
+.substep[aria-checked="true"] .sub-t{color:var(--muted);text-decoration:line-through}
+.sub-t{overflow-wrap:anywhere}
+.notes{white-space:pre-wrap;overflow-wrap:anywhere}
+.callout{background:var(--accent-soft);border-radius:14px;padding:14px;border:1px solid #E8CDBA}
+
+/* ---------- forms ---------- */
+.field{margin-top:18px}
+.input,.select,.textarea{width:100%;min-height:52px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);font-size:16px}
+.textarea{min-height:120px;resize:vertical;line-height:1.5}
+.textarea-big{min-height:180px}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--forest);outline:3px solid rgba(47,74,58,.25);outline-offset:0}
+.hint{font-size:.88rem;color:var(--muted);margin-top:6px}
+.error{color:var(--danger);font-weight:600;font-size:.92rem;margin-top:6px}
+.sub-editor{display:flex;gap:8px;margin-bottom:8px}
+.sub-editor .input{flex:1;min-width:0}
+.counter{font-size:.85rem;color:var(--muted);text-align:right;margin-top:4px}
+.switch-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;min-height:64px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);text-align:left;margin-bottom:8px}
+.switch{width:52px;height:30px;border-radius:999px;background:#C9C3B4;position:relative;flex:none;border:2px solid transparent}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.switch-row[aria-checked="true"] .switch{background:var(--forest)}
+.switch-row[aria-checked="true"] .switch::after{left:24px}
+.sw-state{font-size:.8rem;font-weight:700;color:var(--muted);margin-right:6px}
+
+/* ---------- timer ---------- */
+.timer-wrap{display:grid;place-items:center;margin:8px 0}
+.timer-ring{width:min(240px,62vw);height:min(240px,62vw);position:relative}
+.timer-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer-ring .track{stroke:var(--sage-2)}
+.timer-ring .prog{stroke:var(--forest);transition:stroke-dashoffset .4s linear}
+.timer-time{position:absolute;inset:0;display:grid;place-items:center;font-size:2.6rem;font-weight:650;font-variant-numeric:tabular-nums;color:var(--forest)}
+.timer-state{text-align:center;color:var(--muted);font-weight:600;min-height:1.5em}
+.queue-item{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:6px;text-align:left}
+.queue-item[aria-checked="true"] .box{background:var(--forest)}
+.queue-item[aria-checked="true"] .q-name{color:var(--muted);text-decoration:line-through}
+.q-name{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:600}
+.q-min{color:var(--muted);font-size:.9rem;flex:none}
+.plan-list{list-style:none;padding:0;margin:0;counter-reset:q}
+.plan-list li{display:flex;gap:12px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.plan-list li::before{counter-increment:q;content:counter(q) ".";font-weight:700;color:var(--forest);width:1.4em;flex:none}
+.plan-list .p-name{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:600}
+
+/* ---------- progress ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
+.stat-n{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--forest);display:block}
+.stat-l{font-size:.82rem;color:var(--muted);display:block;line-height:1.25}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.day-dot{width:36px;height:36px;margin:4px auto 0;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--sage-2);font-weight:700;color:var(--forest)}
+.day-dot.has{background:var(--sage);border:2px solid var(--forest)}
+.day-l{font-size:.78rem;color:var(--muted)}
+.day.is-today .day-l{color:var(--forest);font-weight:800}
+
+/* ---------- brain dump ---------- */
+.dump-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.dump-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.dump-text.clamped{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.dump-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.dump-actions .btn{width:auto;min-width:48px;min-height:48px;padding:8px 12px;font-size:.92rem}
+.done-tag{display:inline-flex;align-items:center;gap:6px;color:var(--forest);font-weight:650;font-size:.92rem;min-height:44px}
+
+/* ---------- celebration / calm screens ---------- */
+.calm{text-align:center;padding-top:10vh}
+.calm .title{font-size:2rem}
+.calm .heart{font-size:2.4rem;color:var(--accent);display:block;margin-bottom:8px}
+
+/* ---------- fixed chrome ---------- */
+.bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--forest);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:var(--safe-b);box-shadow:0 -2px 12px rgba(0,0,0,.08)}
+.bottomnav a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:var(--nav-h);color:#D3DED3;text-decoration:none;font-size:.8rem;font-weight:600}
+.bottomnav a[aria-current="page"]{color:#fff}
+.bottomnav a[aria-current="page"]::before{content:"";position:absolute;top:6px;width:36px;height:3px;border-radius:3px;background:#F2D8C6}
+.minibar{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + var(--safe-b) + 8px);z-index:29;max-width:616px;margin:0 auto}
+.minibar button{display:flex;align-items:center;gap:10px;width:100%;min-height:56px;padding:8px 16px;border-radius:16px;border:1px solid var(--sage-2);background:var(--card);box-shadow:0 6px 18px rgba(31,43,36,.16);text-align:left;color:var(--forest);font-weight:650}
+.mb-label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mb-time{font-variant-numeric:tabular-nums;flex:none}
+.toast{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + var(--safe-b) + 12px);z-index:40;max-width:600px;margin:0 auto;background:var(--ink);color:#fff;border-radius:14px;padding:10px 10px 10px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+body.has-minibar .toast{bottom:calc(var(--nav-h) + var(--safe-b) + 76px)}
+.toast-msg{flex:1;min-width:0}
+.toast-btn{min-height:48px;min-width:64px;padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-weight:700}
+.banner{position:sticky;top:0;z-index:35;background:#FBEAD9;color:#5A2A12;border-bottom:1px solid #E8C4A5;padding:calc(10px + var(--safe-t)) 16px 10px;font-size:.95rem;display:flex;gap:10px;align-items:flex-start}
+.banner p{flex:1}
+.banner .icon-btn{min-width:48px;min-height:48px;color:#5A2A12}
+.sheet-root{position:fixed;inset:0;z-index:50}
+.backdrop{position:absolute;inset:0;background:rgba(20,28,23,.45)}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:88vh;max-height:88dvh;overflow:auto;background:var(--cream);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + var(--safe-b));max-width:640px;margin:0 auto;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+.sheet .h2{margin-bottom:8px}
+.sheet .btn-row{margin-top:18px}
+body.sheet-open{overflow:hidden}
+body.typing .bottomnav,body.typing .minibar{display:none}
+body.typing main{padding-bottom:32px}
+body.typing .toast{bottom:16px}
+
+/* ---------- desktop ---------- */
+@media (min-width:900px){
+  :root{--nav-h:0px}
+  .bottomnav{display:none}
+  .sidebar{display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;width:248px;background:var(--forest);color:var(--forest-ink);padding:24px 14px;overflow:auto}
+  .brand{font-family:var(--serif);font-size:1.2rem;font-weight:600;padding:0 10px 18px;line-height:1.3}
+  .brand small{display:block;font-family:var(--font);font-size:.8rem;opacity:.8;font-weight:500}
+  .side-link{display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 12px;border-radius:12px;color:#D3DED3;text-decoration:none;font-weight:600}
+  .side-link[aria-current="page"]{background:rgba(255,255,255,.12);color:#fff}
+  .side-link:hover{background:rgba(255,255,255,.08)}
+  .side-sep{height:1px;background:rgba(255,255,255,.16);margin:10px 8px}
+  main{margin-left:248px;padding:32px 40px 120px;max-width:none}
+  main > .screen{max-width:640px;margin:0 auto}
+  body.has-minibar main{padding-bottom:140px}
+  .minibar{left:calc(248px + 40px);right:40px;bottom:20px}
+  .toast{left:calc(248px + 40px);right:40px;bottom:20px}
+  body.has-minibar .toast{bottom:88px}
+  .sheet{bottom:auto;top:50%;transform:translateY(-50%);border-radius:20px;left:248px}
+  .area-grid{grid-template-columns:repeat(3,1fr)}
+}
+/* ---------- FREE DEMO ---------- */
+.demobar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 10px;padding:calc(8px + var(--safe-t)) 16px 8px;background:var(--sage);border-bottom:1px solid var(--sage-2);color:var(--forest);font-size:.86rem;font-weight:600;text-align:center;line-height:1.35}
+.demo-pill{display:inline-block;background:var(--forest);color:var(--forest-ink);font-weight:800;letter-spacing:.08em;font-size:.72rem;padding:4px 10px;border-radius:999px;white-space:nowrap}
+@media (max-width:899px){.demobar + main{padding-top:12px}}
+@media (min-width:900px){.demobar{margin-left:248px}}
+.side-pill{display:block;width:max-content;margin:8px 0 4px;background:#F2D8C6;color:var(--forest)}
+.demo-card{border-color:var(--sage-2)}
+.demo-card .btn{margin-top:10px}
+.demo-slots{font-weight:650;color:var(--forest);margin-top:8px}
+.demo-off{opacity:.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="banner" class="banner" role="alert" hidden></div>
+<aside class="sidebar" id="sidebar" aria-label="Main navigation"></aside>
+<div id="demobar" class="demobar" role="note"></div>
+<main id="main" tabindex="-1"></main>
+<div id="minibar" class="minibar" hidden></div>
+<nav id="bottomnav" class="bottomnav" aria-label="Main navigation"></nav>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div id="sheet-root" class="sheet-root" hidden></div>
+<noscript><p style="padding:20px">This planner needs JavaScript to run. Please open it in a normal browser window (Chrome, Safari, Edge or Firefox).</p></noscript>
+
+<script>
+(function () {
+'use strict';
+
+/* =====================================================================
+   FREE DEMO CONFIGURATION
+   Paste the full Etsy listing URL of the PAID planner between the quotes,
+   It looks like:  https://www.etsy.com/listing/<listing number>/<listing name>
+   Until a real Etsy listing URL is pasted, the "Get the Full Planner"
+   buttons do not open any link (no fake or placeholder link is used).
+   ===================================================================== */
+const ETSY_LISTING_URL = "PASTE_ETSY_LISTING_URL_HERE";
+const DEMO = true;
+const DEMO_LIMIT = 5;   // total customer-created task entries allowed in the demo (never refunded)
+
+/* =====================================================================
+   1. CONSTANTS
+   ===================================================================== */
+const APP_ID = 'adhdCleaningPlannerDemo';   // FREE DEMO: separate storage namespace from the paid planner
+const APP_VERSION = '1.2.2';
+const SCHEMA_VERSION = 1;
+const STARTER_VERSION = 1;
+const KEY = APP_ID;                               // single namespaced storage root
+const KEY_BEFORE_IMPORT = APP_ID + '__beforeImport';
+const KEY_DAMAGED_PREFIX = APP_ID + '__damaged_';
+const DURATIONS = [2, 5, 10, 15, 20, 30, 45, 60];
+const SESSION_TIMES = [5, 10, 15, 20];
+const ENERGIES = ['low', 'medium', 'high'];
+const ENERGY_RANK = { low: 1, medium: 2, high: 3 };
+const PRIORITIES = ['low', 'normal', 'high'];
+const FREQS = ['daily', 'everyN', 'weekly', 'monthly'];
+const TIMER_MODES = ['task', 'quick', 'reset', 'free'];
+const LIMITS = { taskName: 80, areaName: 40, subtask: 80, subtasks: 12, notes: 2000, dump: 5000, everyNMax: 365, dumpLines: 20 };
+const MAX_SWAPS = 3;            // "Something else" may be used at most 3 times
+const BACKUP_NUDGE_DAYS = 14;
+const TODAY_LIMIT = 5;          // Tasks › Today shows this many due/overdue tasks before "Show all"
+
+/* =====================================================================
+   2. STRINGS  (all UI copy lives here to keep future localisation simple)
+   ===================================================================== */
+const S = {
+  appName: 'ADHD Cleaning Planner',
+  nav: { home: 'Home', tasks: 'Tasks', areas: 'Areas', more: 'More' },
+  welcome: 'Welcome back ♥',
+  welcomeSub: 'Small steps. Real progress. You’ve got this.',
+  firstTitle: 'Welcome ♥',
+  firstLede: 'This planner helps you pick one small cleaning task at a time — so you never have to work out where to start.',
+  firstReady: 'Your rooms and a starter set of tasks are already here.',
+  firstDataNotice: 'This free demo is saved only in this browser on this device. No account and no internet needed. You can add up to 5 tasks of your own.',
+  firstStart: 'Help Me Start',
+  firstLook: 'Look around first',
+  todaysCleaning: 'Today’s Cleaning',
+  wins: (n) => n === 1 ? '1 small win today' : n + ' small wins today',
+  noWins: 'No wins yet today. One small thing is enough.',
+  focusedToday: (m) => m + ' min of focused cleaning',
+  helpMeStart: 'Help Me Start',
+  helpSub: 'We’ll pick one small thing for you.',
+  quickClean: 'Quick Clean',
+  overwhelmed: 'I’m Overwhelmed',
+  continueCleaning: 'Continue Cleaning',
+  back: 'Back',
+  howEnergy: 'How’s your energy?',
+  energyHint: 'Low gives you the gentlest tasks. High can include bigger jobs.',
+  howTime: 'How much time do you have?',
+  showMe: 'Show me one thing',
+  energyShort: { low: 'Low', medium: 'Medium', high: 'High' },
+  energyLong: { low: 'Low energy', medium: 'Medium energy', high: 'High energy' },
+  priorityLong: { low: 'Low priority', normal: 'Normal priority', high: 'High priority' },
+  priorityShort: { low: 'Low', normal: 'Normal', high: 'High' },
+  min: (n) => n + ' min',
+  yourOneThing: 'Your one thing',
+  tinyThing: 'Just a tiny thing',
+  firstStep: 'First step',
+  start: 'Start',
+  somethingElse: 'Something else',
+  notNow: 'Not now',
+  noArea: 'Unsorted',
+  genericStep: 'Start with whatever is closest to you.',
+  replaceTitle: 'Replace the current timer?',
+  replaceText: (l) => '“' + l + '” is still running. Its time so far will be saved, then the new one starts.',
+  replaceConfirm: 'Replace timer',
+  keep: 'Keep current',
+  quickTitle: 'Quick Clean',
+  quickLede: 'A short burst of small tasks. Stop whenever you like.',
+  quickHow: 'How long?',
+  quickPlanTitle: (m) => 'Your ' + m + '-minute clean',
+  quickPlanLede: 'Tick things off as you go. Anything you don’t get to is fine — it stays for another day.',
+  quickStart: 'Start Quick Clean',
+  quickEmpty: 'We couldn’t fit any tasks into this time.',
+  overTitle: 'You don’t have to fix everything.',
+  overLede: 'Pick one. You can stop any time.',
+  overReset: '2-Minute Reset',
+  overResetSub: 'A short timer. Put away whatever you can reach.',
+  overTiny: 'One Tiny Thing',
+  overTinySub: 'One very small task. No timer.',
+  overMin: 'Minimum Clean',
+  overMinSub: 'Three tiny basics, one at a time.',
+  resetInstruction: 'Put away anything you can reach. When the timer ends, you’re done.',
+  done: 'Done',
+  doneNext: 'Done — next',
+  enoughBtn: 'That’s enough for now',
+  enoughTitle: 'That was enough for now. ♥',
+  enoughLede: 'You showed up for your space. That counts.',
+  backHome: 'Back to Home',
+  minStep: (i, n) => i + ' of ' + n,
+  doneTitle: 'Nice work. ♥',
+  oneMore: 'One more small thing',
+  doneForNow: 'I’m done for now',
+  tabToday: 'Today', tabQuick: 'Quick Wins', tabAll: 'All Tasks',
+  tasksTitle: 'Tasks',
+  addTask: 'Add task',
+  secReady: 'Ready when you are',
+  secToday: 'Today',
+  secQuick: 'Quick wins',
+  secDone: 'Done today',
+  todayEmpty: 'Nothing is waiting right now.',
+  quickEmptyList: 'No short tasks right now.',
+  allEmpty: 'You don’t have any tasks yet.',
+  dueToday: 'Today',
+  readyWhenYouAre: 'Ready when you are',
+  doneToday: 'Done today ✓',
+  doneOn: (d) => 'Done ' + d,
+  nextOn: (d) => 'Next: ' + d,
+  dueOn: (d) => 'Due: ' + d,
+  anytime: 'Anytime',
+  today: 'Today', tomorrow: 'Tomorrow', yesterday: 'Yesterday',
+  completeLabel: (n) => 'Mark “' + n + '” complete',
+  undoCompleteLabel: (n) => '“' + n + '” is done today. Tap to mark not done.',
+  niceWin: 'Nice — that’s a win.',
+  markedNotDone: 'Marked as not done.',
+  undo: 'Undo',
+  taskGone: 'This task isn’t here anymore.',
+  startTimer: 'Start Timer',
+  markComplete: 'Mark Complete',
+  edit: 'Edit',
+  delete: 'Delete',
+  deleteTask: 'Delete task',
+  taskDeleted: 'Task deleted.',
+  steps: 'Steps',
+  notes: 'Notes',
+  allStepsDone: 'All steps are checked. Is the whole task done?',
+  yesComplete: 'Yes, mark complete',
+  repeats: 'Repeats',
+  oneOff: 'One-off',
+  freqText: (r) => r.freq === 'daily' ? 'Every day' : r.freq === 'everyN' ? 'Every ' + r.n + ' days' : r.freq === 'weekly' ? 'Weekly (7 days after last done)' : 'Monthly on day ' + r.day,
+  newTask: 'New task', editTask: 'Edit task',
+  fName: 'Task name', fArea: 'Area', fDuration: 'How long does it take?', fEnergy: 'Energy needed', fPriority: 'Priority',
+  fType: 'Does it repeat?', fFreq: 'How often?', fEveryN: 'Every how many days?', fDay: 'Day of the month', fSteps: 'Steps (optional)', fNotes: 'Notes (optional)',
+  freqLabels: { daily: 'Every day', everyN: 'Every few days', weekly: 'Weekly', monthly: 'Monthly' },
+  dayHint: 'In shorter months this happens on the last day of the month.',
+  weeklyHint: 'Comes back 7 days after you last did it — missed weeks never pile up.',
+  addStep: 'Add a step',
+  removeStep: (i) => 'Remove step ' + i,
+  stepLabel: (i) => 'Step ' + i,
+  save: 'Save', cancel: 'Cancel',
+  saved: 'Saved.',
+  errName: 'Give the task a short name.',
+  errEveryN: 'Enter a number of days from 2 to 365.',
+  areasTitle: 'Areas',
+  addArea: 'Add area',
+  areaName: 'Area name',
+  areaTasks: (n, r) => (n === 1 ? '1 task' : n + ' tasks') + (r ? ' · ' + r + ' ready' : ''),
+  renameArea: 'Rename',
+  deleteArea: 'Delete area',
+  errAreaName: 'Give the area a name.',
+  errAreaDup: 'You already have an area with that name.',
+  areaDeleteTitle: (n) => 'Delete “' + n + '”?',
+  areaDeleteText: (c) => c ? (c === 1 ? 'Its 1 task will move to Unsorted.' : 'Its ' + c + ' tasks will move to Unsorted.') + ' Your history stays.' : 'This area has no tasks. Your history stays.',
+  areaDeleted: 'Area deleted. Its tasks are in Unsorted.',
+  areaEmpty: 'No tasks here yet.',
+  addTaskHere: 'Add a task here',
+  noAreas: 'No areas yet. Add a room to get started.',
+  moreTitle: 'More',
+  more: {
+    schedule: ['Schedule', 'What’s coming up'],
+    timer: ['Focus Timer', 'A calm timer for any task'],
+    progress: ['Progress', 'Your small wins'],
+    dump: ['Brain Dump', 'Get thoughts out of your head'],
+    reminders: ['Gentle Reminders', 'Soft nudges inside the app'],
+    settings: ['Settings', 'Backup, restore and your data']
+  },
+  schedTitle: 'Schedule',
+  schedLede: 'Repeating tasks and when they’re next ready. Change repeats inside each task.',
+  schedUpcoming: 'Next 2 weeks',
+  schedEmpty: 'Nothing scheduled. Repeating tasks will show here.',
+  timerTitle: 'Focus Timer',
+  timerLede: 'Pick a length and start. You can pause or stop any time.',
+  timerStartFree: 'Start focus timer',
+  freeLabel: 'Focus time',
+  pause: 'Pause', resume: 'Resume', finish: 'Finish', cancelTimer: 'Cancel timer',
+  paused: 'Paused',
+  pausedAt: (t) => 'Paused · ' + t,
+  timesUp: 'Time’s up',
+  showAll: (n) => 'Show all (' + n + ' more)',
+  showFewer: 'Show fewer',
+  nameHint: 'Only the name is needed — the rest is already filled in.',
+  lastSwap: 'That’s the last swap — try this tiny win, or come back later.',
+  finishedEarly: 'Finished early',
+  silentTimer: 'This timer is silent — keep this screen open if you’d like to see when time is up.',
+  keepGoing: 'Keep going',
+  onlyTickedSaved: 'Only ticked tasks are saved.',
+  timerDoneQ: 'Nice work. Is this task done?',
+  timerDoneQuick: 'Nice work. Ready to wrap up?',
+  timerDoneFree: 'Nice work. Time’s up.',
+  timerDoneReset: 'Nice work. Two minutes done.',
+  timerDoneEarly: 'Nice work. You finished early.',
+  need5: 'Need 5 more min',
+  stopHere: 'Stop here',
+  stoppingOk: 'Stopping is okay. Your time still counts.',
+  cancelTitle: 'Cancel this timer?',
+  cancelText: 'The time on this timer won’t be counted. If you cleaned, choose Finish instead.',
+  cancelConfirm: 'Cancel timer',
+  timerCancelled: 'Timer cancelled.',
+  returnTimer: 'Return to timer',
+  progressTitle: 'Progress',
+  thisWeek: 'This week',
+  statWins: 'small wins', statMins: 'min timed', statAreas: 'areas touched',
+  weeklyWins: 'Weekly wins',
+  areasTouched: 'Areas you touched',
+  allTime: (w, m) => 'Since you started: ' + w + (w === 1 ? ' win' : ' wins') + ' · ' + m + ' min of timed cleaning',
+  progressEmpty: 'Your wins will show up here. One small thing counts.',
+  dayWins: (d, n) => d + ': ' + (n === 1 ? '1 win' : n + ' wins'),
+  dumpTitle: 'Brain Dump',
+  dumpPrompt: 'Get everything out of your head.',
+  dumpHint: 'One thought per line. Save it as a note, or turn each line into a task.',
+  dumpSave: 'Save',
+  dumpToTasks: 'Turn into tasks',
+  dumpSaved: 'Saved to your Brain Dump.',
+  dumpEmptyErr: 'Write something first.',
+  dumpEmpty: 'Nothing here yet. Anything on your mind can go here.',
+  dumpDeleted: 'Note deleted.',
+  dumpEdit: 'Edit note',
+  showMore: 'Show more', showLess: 'Show less',
+  convertedTag: (n) => n === 1 ? 'Turned into 1 task' : 'Turned into ' + n + ' tasks',
+  convertTitle: 'Turn into tasks',
+  convertLede: 'Each line becomes its own task. Untick anything you don’t want.',
+  convertArea: 'Put them in',
+  convertBtn: (n) => n === 1 ? 'Create 1 task' : 'Create ' + n + ' tasks',
+  convertNone: 'Tick at least one line.',
+  convertMax: (n) => 'Only the first ' + n + ' lines are shown.',
+  convertDone: (n) => n === 1 ? '1 task added.' : n + ' tasks added.',
+  convertNoteFrom: 'From your Brain Dump:',
+  remTitle: 'Gentle Reminders',
+  remLede: 'This planner can’t send phone notifications. Instead, soft nudges appear on Home when you open it.',
+  remTasks: 'Task nudges on Home', remTasksSub: 'Shows one task that’s ready, once a day.',
+  remBackup: 'Backup reminders', remBackupSub: 'A gentle note if you haven’t backed up in 2 weeks.',
+  on: 'On', off: 'Off',
+  nudgeTask: (n) => '“' + n + '” is ready when you are.',
+  nudgeOpen: 'Open',
+  nudgeLater: 'Not today',
+  nudgeBackup: 'It’s been a while since your last backup. A backup keeps your planner safe.',
+  nudgeBackupBtn: 'Back up now',
+  settingsTitle: 'Settings',
+  yourData: 'Your data',
+  dataNotice: 'The demo is saved only in this browser on this device. Clearing browser data or using private browsing can erase it. Backup and restore are available in the full planner.',
+  backupH: 'Backup',
+  lastBackup: (d) => 'Last backup: ' + d,
+  never: 'never',
+  downloadBackup: 'Download backup',
+  backupDone: 'Backup downloaded.',
+  backupFail: 'The backup couldn’t be created in this browser.',
+  restoreH: 'Restore',
+  restoreLede: 'Restoring replaces what’s in this planner with the backup. A safety copy of your current data is kept first.',
+  chooseBackup: 'Choose a backup file',
+  restorePrev: 'Undo last restore',
+  restorePrevLede: (d) => 'Put back the data you had before your last restore (' + d + ').',
+  resetH: 'Reset Demo',
+  resetLede: 'Puts back the demo’s starting tasks and clears your demo notes and history. Your free demo task allowance is not reset.',
+  resetBtn: 'Reset Demo',
+  resetTitle: 'Reset the demo?',
+  resetText: 'This puts back the starting tasks and clears your demo notes and history. Your free demo task allowance stays the same. Type RESET to confirm.',
+  resetConfirm: 'Reset Demo',
+  resetDone: 'The demo was reset.',
+  aboutH: 'About',
+  aboutText: 'ADHD Cleaning Planner · Free Demo (based on version ' + APP_VERSION + '). Works offline. No account, no tracking.',
+  demoBadge: 'FREE DEMO',
+  demoTagline: 'Try the core cleaning experience before you buy.',
+  demoCta: 'Get the Full Planner',
+  demoCtaSub: 'Unlock the complete ADHD Cleaning Planner',
+  demoCardText: 'The full planner has no task limit, the complete starter set, backup and restore, and editing for every task.',
+  demoSlots: (n) => n === 0 ? 'You’ve used all 5 free demo tasks.' : n + ' of 5 free demo tasks left',
+  demoLimitTitle: 'Free demo limit reached.',
+  demoLimitText: 'You’ve experienced the core planner. Get the full ADHD Cleaning Planner to keep building your cleaning system.',
+  demoKeepExploring: 'Keep exploring',
+  demoCtaPending: 'The shop link will be added soon.',
+  demoFullOnly: 'Available in the full planner.',
+  demoStarterEditTitle: 'Starter tasks can’t be edited in the demo',
+  demoStarterEditText: 'In this free demo you can edit the tasks you add yourself. The full planner lets you edit every task.',
+  demoBackToTask: 'Back to task',
+  demoConvertLimit: (n) => 'Free demo: you can create ' + n + (n === 1 ? ' more task' : ' more tasks') + '. Untick a line to choose a different one.',
+  importBad: (why) => 'This file can’t be used: ' + why + ' Nothing was changed.',
+  whyJson: 'it isn’t a valid backup file.',
+  whyApp: 'it isn’t a backup from this planner.',
+  whyNewer: 'it comes from a newer version of the planner. Please use the newest planner file.',
+  whyVersion: 'it doesn’t say which version it’s from.',
+  whyCore: 'important parts are missing.',
+  whyRead: 'the file couldn’t be read.',
+  whyEmpty: 'the file is empty.',
+  whyBig: 'the file is too large.',
+  previewTitle: 'Restore this backup?',
+  previewCounts: (c) => c.tasks + (c.tasks === 1 ? ' task' : ' tasks') + ', ' + c.areas + (c.areas === 1 ? ' area' : ' areas') + ', ' + c.completions + (c.completions === 1 ? ' completed task in history' : ' completed tasks in history') + ', ' + c.notes + (c.notes === 1 ? ' note' : ' notes') + '.',
+  previewFrom: (d) => 'Backup made: ' + d,
+  previewSkipped: (n) => n + (n === 1 ? ' damaged item will be skipped.' : ' damaged items will be skipped.'),
+  previewRepaired: (n) => n + (n === 1 ? ' item had missing details that were filled in.' : ' items had missing details that were filled in.'),
+  previewWarn: 'This replaces everything currently in this planner. A safety copy of your current data is kept so you can undo.',
+  replaceMine: 'Replace my data',
+  restored: 'Backup restored.',
+  restoreFailed: 'The restore didn’t complete, so your existing data was kept.',
+  safetyCopyFailed: 'We couldn’t make a safety copy of your current data, so nothing was changed.',
+  storageUnavailable: 'Saving isn’t available in this browser right now, so changes will be lost when you close this page. Try opening the planner in a normal (not private) browser window.',
+  saveFailed: 'Your last change couldn’t be saved. This browser may be out of space for the planner. Download a backup from Settings to keep your data safe.',
+  otherTab: 'This planner was changed in another tab. The latest version is now loaded — please try that again.',
+  otherTabUpdated: 'Updated from another tab.',
+  damagedSetAside: (n) => n + (n === 1 ? ' damaged item was' : ' damaged items were') + ' set aside. Everything else is safe.',
+  genericError: 'Something went wrong with that action. Your saved data is safe.',
+  recTitle: 'We couldn’t read your saved planner',
+  recText: 'Your saved data looks damaged. It has NOT been deleted. You can download it, restore a backup file, or start fresh (a copy of the damaged data is kept in this browser).',
+  recDownload: 'Download saved data',
+  recRestore: 'Restore a backup file',
+  recFresh: 'Start fresh',
+  recFreshTitle: 'Start fresh?',
+  recFreshText: 'A copy of the damaged data stays in this browser, but the planner will start with the starter tasks again.',
+  close: 'Close',
+  dismiss: 'Dismiss',
+  notFound: 'That page doesn’t exist.'
+};
+
+/* =====================================================================
+   3. DATE LOGIC  — local calendar dates as 'YYYY-MM-DD' strings.
+   All arithmetic converts to whole UTC day numbers, so it is DST-safe and
+   never shifts a date because of the device's UTC offset.
+   ===================================================================== */
+const pad = (n) => String(n).padStart(2, '0');
+const D = {
+  today() { const d = new Date(); return D.make(d.getFullYear(), d.getMonth() + 1, d.getDate()); },
+  keyOf(ts) { const d = new Date(ts); return D.make(d.getFullYear(), d.getMonth() + 1, d.getDate()); },
+  make(y, m, d) { return String(y).padStart(4, '0') + '-' + pad(m) + '-' + pad(d); },
+  parts(k) { return { y: +k.slice(0, 4), m: +k.slice(5, 7), d: +k.slice(8, 10) }; },
+  dim(y, m) { return new Date(Date.UTC(y, m, 0)).getUTCDate(); }, // m = 1..12
+  valid(k) {
+    if (typeof k !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(k)) return false;
+    const p = D.parts(k);
+    return p.y >= 1970 && p.y <= 9999 && p.m >= 1 && p.m <= 12 && p.d >= 1 && p.d <= D.dim(p.y, p.m);
+  },
+  num(k) { const p = D.parts(k); return Math.round(Date.UTC(p.y, p.m - 1, p.d) / 864e5); },
+  fromNum(n) { const dt = new Date(n * 864e5); return D.make(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate()); },
+  add(k, n) { return D.fromNum(D.num(k) + n); },
+  diff(a, b) { return D.num(a) - D.num(b); }, // a − b in days
+  weekStart(k) { const dow = (new Date(D.num(k) * 864e5).getUTCDay() + 6) % 7; return D.add(k, -dow); }, // Monday
+  // First date on/after k whose day-of-month is `day`, clamped to the month length (31 → 30/29/28).
+  monthlyOnOrAfter(k, day) {
+    const p = D.parts(k); let y = p.y, m = p.m, d = Math.min(day, D.dim(y, m));
+    if (d < p.d) { m++; if (m > 12) { m = 1; y++; } d = Math.min(day, D.dim(y, m)); }
+    return D.make(y, m, d);
+  },
+  fmt(k, opts) { try { return new Intl.DateTimeFormat(undefined, Object.assign({ timeZone: 'UTC' }, opts)).format(new Date(D.num(k) * 864e5)); } catch (e) { return k; } },
+  label(k) {
+    const df = D.diff(k, D.today());
+    if (df === 0) return S.today; if (df === 1) return S.tomorrow; if (df === -1) return S.yesterday;
+    return D.fmt(k, { weekday: 'short', day: 'numeric', month: 'short' });
+  },
+  weekday(k) { return D.fmt(k, { weekday: 'short' }); }
+};
+
+/* =====================================================================
+   4. DOM UTILITIES — user text is ONLY ever inserted as text nodes.
+   innerHTML is used solely for the static icon SVG constants below.
+   ===================================================================== */
+const $ = (sel, root) => (root || document).querySelector(sel);
+function h(tag, attrs) {
+  const el = document.createElement(tag);
+  let props = null;
+  if (attrs) {
+    for (const k in attrs) {
+      const v = attrs[k];
+      if (v == null || v === false) continue;
+      if (k === 'class') el.className = v;
+      else if (k === 'text') el.textContent = v;
+      else if (k === 'fk') el.setAttribute('data-fk', v);
+      else if (k === 'props') props = v;
+      else if (k.slice(0, 2) === 'on' && typeof v === 'function') el.addEventListener(k.slice(2).toLowerCase(), v);
+      else if (v === true) el.setAttribute(k, '');
+      else el.setAttribute(k, String(v));
+    }
+  }
+  appendKids(el, Array.prototype.slice.call(arguments, 2));
+  if (props) Object.assign(el, props);
+  return el;
+}
+function appendKids(el, kids) {
+  for (const c of kids) {
+    if (c == null || c === false) continue;
+    if (Array.isArray(c)) { appendKids(el, c); continue; }
+    el.appendChild(c instanceof Node ? c : document.createTextNode(String(c)));
+  }
+}
+const SVG = (p) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + p + '</svg>';
+const ICONS = {
+  home: SVG('<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/>'),
+  tasks: SVG('<path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/>'),
+  areas: SVG('<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>'),
+  more: SVG('<circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>'),
+  back: SVG('<path d="M15 5l-7 7 7 7"/>'),
+  chev: SVG('<path d="M9 5l7 7-7 7"/>'),
+  check: SVG('<path d="M5 12.5 10 17 19 7"/>'),
+  plus: SVG('<path d="M12 5v14M5 12h14"/>'),
+  close: SVG('<path d="M6 6l12 12M18 6 6 18"/>'),
+  leaf: SVG('<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14Z"/><path d="M5 19 13 11"/>'),
+  sparkle: SVG('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>'),
+  bolt: SVG('<path d="M13 3 5 13.5h6L10 21l8-10.5h-6L13 3Z"/>'),
+  wind: SVG('<path d="M3 9h11a3 3 0 1 0-3-3"/><path d="M3 14h15a3 3 0 1 1-3 3"/>'),
+  timer: SVG('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/>'),
+  calendar: SVG('<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
+  chart: SVG('<path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/>'),
+  note: SVG('<path d="M6 3.5h9l3.5 3.5v13.5H6z"/><path d="M14.5 3.5V7.5H18.5M9 12h6M9 16h4"/>'),
+  bell: SVG('<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>'),
+  gear: SVG('<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>'),
+  heart: SVG('<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/>'),
+  play: SVG('<path d="M8 5.5v13l10-6.5z"/>'),
+  download: SVG('<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>'),
+  upload: SVG('<path d="M12 20V9M7 13.5l5-5 5 5M5 4h14"/>')
+};
+function icon(name) { const s = document.createElement('span'); s.className = 'ic'; s.setAttribute('aria-hidden', 'true'); s.innerHTML = ICONS[name] || ''; return s; }
+// Energy level icon: 1–3 filled bars. Always paired with a text label (never colour-only).
+function energyIcon(level) {
+  const n = ENERGY_RANK[level] || 1, bars = [];
+  for (let i = 0; i < 3; i++) { const hgt = 6 + i * 5; bars.push('<rect x="' + (5 + i * 5.5) + '" y="' + (19 - hgt) + '" width="3.6" height="' + hgt + '" rx="1" ' + (i < n ? 'fill="currentColor" stroke="none"' : 'fill="none"') + '/>'); }
+  const s = document.createElement('span'); s.className = 'ic'; s.setAttribute('aria-hidden', 'true');
+  s.innerHTML = SVG(bars.join('')); return s;
+}
+function uid(prefix) { return (prefix || 'x') + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+const nonEmpty = (v) => typeof v === 'string' && v.trim().length > 0;
+const finite = (v) => typeof v === 'number' && isFinite(v);
+const clip = (s, n) => String(s).slice(0, n);
+
+/* Repeat-safe action wrapper: ignores taps while an action is running and
+   for a short cooldown afterwards (protects against double taps). */
+let globalLockUntil = 0; // survives re-renders: a double-tap can't hit the button that replaced the first one
+function act(fn, cooldown) {
+  let busy = false;
+  const cd = cooldown == null ? 450 : cooldown;
+  return function (e) {
+    if (busy || Date.now() < globalLockUntil) return;
+    busy = true;
+    globalLockUntil = Date.now() + Math.min(cd, 350);
+    const btn = e && e.currentTarget;
+    if (btn && 'disabled' in btn) btn.disabled = true;
+    Promise.resolve().then(() => fn(e)).catch(handleError).finally(() => {
+      setTimeout(() => { busy = false; if (btn && btn.isConnected) btn.disabled = false; }, cd);
+    });
+  };
+}
+
+// During the lock window, swallow taps on ANY button/link (nav, sheets, toasts) so the second half of a
+// double-tap can't land on whatever appeared under the finger after the first tap.
+document.addEventListener('click', (e) => {
+  if (!e.isTrusted || Date.now() >= globalLockUntil) return;
+  const el = e.target && e.target.closest ? e.target.closest('a,button') : null;
+  if (el) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+
+/* =====================================================================
+   5. STARTER CONTENT — stable IDs. Deleted starter items are tracked in
+   deletedStarterIds so reconciliation never resurrects them.
+   ===================================================================== */
+const STARTER_AREAS = [
+  { id: 'area-kitchen', name: 'Kitchen' }, { id: 'area-bathroom', name: 'Bathroom' },
+  { id: 'area-bedroom', name: 'Bedroom' }, { id: 'area-living', name: 'Living Room' },
+  { id: 'area-laundry', name: 'Laundry' }, { id: 'area-entry', name: 'Entryway' }
+];
+const R = { daily: { freq: 'daily' }, weekly: { freq: 'weekly' }, every: (n) => ({ freq: 'everyN', n }), monthly: (day) => ({ freq: 'monthly', day }) };
+// [id, area, name, minutes, energy, priority, recurrence, steps]
+const STARTER_TASKS_ALL = [
+  ['st-k1', 'area-kitchen', 'Clear the kitchen counter', 10, 'low', 'high', R.daily, ['Put away 5 things from the counter.', 'Stack dishes by the sink.', 'Wipe the space you cleared.']],
+  ['st-k2', 'area-kitchen', 'Wash a sink of dishes', 15, 'medium', 'normal', R.every(2), ['Fill the sink with warm soapy water.', 'Wash the cups and glasses first.', 'Leave everything to drip dry.']],
+  ['st-k3', 'area-kitchen', 'Wash 5 dishes', 5, 'low', 'normal', R.daily, ['Run warm water and pick the 5 closest dishes.']],
+  ['st-k4', 'area-kitchen', 'Wipe the stovetop', 5, 'low', 'normal', R.every(2), ['Wet a cloth and wipe the front of the stove first.']],
+  ['st-k5', 'area-kitchen', 'Take out the rubbish', 5, 'low', 'high', R.every(2), ['Tie up the bag and carry it to the door.']],
+  ['st-k6', 'area-kitchen', 'Clean out the fridge', 20, 'high', 'low', R.monthly(1), ['Throw away anything out of date.', 'Wipe one shelf at a time.']],
+  ['st-k7', 'area-kitchen', 'Sweep the kitchen floor', 10, 'medium', 'normal', R.weekly, ['Grab the broom and start in the far corner.']],
+  ['st-k8', 'area-kitchen', 'Rinse and wipe the sink', 2, 'low', 'normal', R.every(2), ['Rinse the sink, then wipe it with a cloth.']],
+  ['st-b1', 'area-bathroom', 'Wipe the bathroom sink', 5, 'low', 'normal', R.every(3), ['Move the soap aside, then wipe the basin.']],
+  ['st-b2', 'area-bathroom', 'Clean the toilet', 10, 'medium', 'normal', R.weekly, ['Add toilet cleaner and let it sit while you get the brush.']],
+  ['st-b3', 'area-bathroom', 'Swap in a fresh hand towel', 2, 'low', 'low', R.weekly, ['Take the used towel to the laundry basket.']],
+  ['st-b4', 'area-bathroom', 'Clean the shower or bath', 20, 'high', 'normal', R.weekly, ['Spray the walls and let it soak for a minute.', 'Scrub from top to bottom.', 'Rinse everything down.']],
+  ['st-b5', 'area-bathroom', 'Clear the bathroom counter', 5, 'low', 'normal', R.every(3), ['Put away 3 things that don’t live there.']],
+  ['st-r1', 'area-bedroom', 'Make the bed', 2, 'low', 'normal', R.daily, ['Pull the cover up and straighten the pillow.']],
+  ['st-r2', 'area-bedroom', 'Pick up clothes from the floor', 5, 'low', 'normal', R.every(3), ['Gather all the clothes into one pile first.', 'Sort the pile: wash or put away.']],
+  ['st-r3', 'area-bedroom', 'Clear the bedside table', 5, 'low', 'low', R.every(3), ['Take any cups or plates to the kitchen.']],
+  ['st-r4', 'area-bedroom', 'Change the bed sheets', 20, 'high', 'normal', R.weekly, ['Strip the bed and put the sheets in the laundry.', 'Put on the fresh sheets.']],
+  ['st-r5', 'area-bedroom', 'Vacuum the bedroom', 15, 'high', 'low', R.weekly, ['Clear anything off the floor first.']],
+  ['st-l1', 'area-living', 'Reset the sofa and cushions', 2, 'low', 'low', R.every(3), ['Plump the cushions and fold any throw.']],
+  ['st-l2', 'area-living', 'Clear the coffee table', 5, 'low', 'normal', R.every(2), ['Take any dishes to the kitchen first.']],
+  ['st-l3', 'area-living', 'Pick up 10 things from the floor', 5, 'low', 'normal', R.every(3), ['Start with the biggest items.']],
+  ['st-l4', 'area-living', 'Dust the surfaces', 10, 'medium', 'low', R.weekly, ['Grab a dry cloth and start with the highest shelf.']],
+  ['st-l5', 'area-living', 'Vacuum the living room', 15, 'high', 'normal', R.weekly, ['Move small things off the floor.']],
+  ['st-d1', 'area-laundry', 'Start a load of laundry', 5, 'medium', 'normal', R.every(3), ['Gather one basket of clothes.']],
+  ['st-d2', 'area-laundry', 'Move laundry to dry', 5, 'low', 'high', R.every(3), ['Open the machine and shake out each item.']],
+  ['st-d3', 'area-laundry', 'Fold one basket of laundry', 15, 'medium', 'normal', R.every(3), ['Fold the towels first.']],
+  ['st-d4', 'area-laundry', 'Put folded clothes away', 10, 'medium', 'normal', R.every(3), ['Start with the clothes on top of the pile.']],
+  ['st-e1', 'area-entry', 'Line up the shoes by the door', 2, 'low', 'low', R.every(2), ['Pair up the shoes you can see.']],
+  ['st-e2', 'area-entry', 'Clear the drop zone', 5, 'low', 'normal', R.every(3), ['Sort the post into keep, act on and recycle.']],
+  ['st-e3', 'area-entry', 'Sweep the entryway', 5, 'medium', 'low', R.weekly, ['Open the door and sweep towards it.']]
+];
+const DEMO_STARTER_IDS = ['st-k1', 'st-k2', 'st-k3', 'st-k5', 'st-b1', 'st-b2', 'st-b4', 'st-r1', 'st-r2', 'st-r4', 'st-l2', 'st-l5', 'st-d2', 'st-e2'];
+const STARTER_TASKS = STARTER_TASKS_ALL.filter((s) => DEMO_STARTER_IDS.indexOf(s[0]) >= 0);   // FREE DEMO: smaller starter set
+/* Built-in micro tasks: the guaranteed fallback. Not stored, cannot be deleted,
+   so even a user with zero tasks always gets a recommendation. */
+const MICRO = [
+  { id: 'm1', name: 'Put 3 things away', step: 'Pick up the 3 closest things that don’t belong and put them where they live.' },
+  { id: 'm2', name: 'Throw away 5 bits of rubbish', step: 'Grab a bag and find 5 things to throw away.' },
+  { id: 'm3', name: 'Clear one small surface', step: 'Pick one small spot — a chair, a shelf — and clear only that.' },
+  { id: 'm4', name: 'Take one cup or plate to the kitchen', step: 'Look around you and carry one cup or plate to the kitchen.' },
+  { id: 'm5', name: 'Put dishes in the sink', step: 'Collect any dishes you can see and put them in or next to the sink.' },
+  { id: 'm6', name: 'Gather loose clothes into one pile', step: 'Pick up any clothes nearby and put them in one pile.' }
+];
+const MICRO_RESET = { id: 'reset', name: '2-Minute Reset', step: S.resetInstruction };
+const MINIMUM_CLEAN = ['m5', 'm2', 'm3'];
+const microById = (id) => MICRO.find((m) => m.id === id) || (id === 'reset' ? MICRO_RESET : null);
+const isMicroKey = (k) => typeof k === 'string' && k.indexOf('micro:') === 0;
+
+function recurrenceInterval(r) { return r.freq === 'daily' ? 1 : r.freq === 'everyN' ? r.n : r.freq === 'weekly' ? 7 : 30; }
+
+function makeStarterTask(s, i, areaOk, today) {
+  const rec = clone(s[6]);
+  const iv = recurrenceInterval(rec);
+  // Stagger first due dates so a new user doesn't see every repeating task due on day one.
+  const offset = rec.freq === 'monthly' || iv <= 1 ? 0 : (i % iv);
+  return {
+    id: s[0], starterId: s[0], name: s[2], areaId: areaOk ? s[1] : null, duration: s[3], energy: s[4], priority: s[5],
+    type: 'repeat', recurrence: rec, subtasks: s[7].map((t, j) => ({ id: s[0] + '-s' + j, text: t })), notes: '',
+    createdAt: Date.now(), startDate: D.add(today, offset), deleted: false, isStarter: true
+  };
+}
+function reconcileStarters(st) {
+  if ((st.starterVersion || 0) >= STARTER_VERSION) return false;
+  const today = D.today();
+  const deleted = new Set(st.deletedStarterIds);
+  const haveArea = new Set(st.areas.map((a) => a.id));
+  const areaNames = new Set(st.areas.map((a) => a.name.trim().toLowerCase()));
+  STARTER_AREAS.forEach((a) => {
+    if (haveArea.has(a.id) || deleted.has('area:' + a.id) || areaNames.has(a.name.toLowerCase())) return;
+    st.areas.push({ id: a.id, name: a.name, isStarter: true, createdAt: Date.now() });
+  });
+  const areaIds = new Set(st.areas.map((a) => a.id));
+  const haveTask = new Set(st.tasks.map((t) => t.starterId || t.id));
+  STARTER_TASKS.forEach((s, i) => {
+    if (haveTask.has(s[0]) || deleted.has(s[0])) return;
+    st.tasks.push(makeStarterTask(s, i, areaIds.has(s[1]), today));
+  });
+  st.starterVersion = STARTER_VERSION;
+  return true;
+}
+
+/* =====================================================================
+   6. VALIDATION & MIGRATION — used for stored data AND imported backups.
+   Records missing required fields are skipped (counted); records with
+   missing optional fields are repaired with safe defaults (counted).
+   ===================================================================== */
+function defaultSettings() {
+  return { onboarded: false, lastEnergy: null, lastTime: null, lastQuickTime: null, lastBackupAt: null, installedAt: Date.now(),
+    nudgeTasks: true, nudgeBackup: true, nudgeDismissedDay: null, backupNudgeDismissedDay: null };
+}
+function freshState() {
+  const st = { app: APP_ID, schemaVersion: SCHEMA_VERSION, appVersion: APP_VERSION, meta: { rev: 0, updatedAt: 0 },
+    settings: defaultSettings(), areas: [], tasks: [], completionLog: [], timeLog: [], timerState: null,
+    brainDumps: [], sessionState: {}, deletedStarterIds: [], starterVersion: 0 };
+  reconcileStarters(st);
+  return st;
+}
+function migrate(o, fromVersion) {
+  // Schema v1 is the first version. Future versions add steps here: if (fromVersion < 2) {...}
+  return o;
+}
+function validRecurrence(r) {
+  if (!isObj(r) || FREQS.indexOf(r.freq) < 0) return null;
+  if (r.freq === 'everyN') { const n = Math.round(Number(r.n)); return n >= 2 && n <= LIMITS.everyNMax ? { freq: 'everyN', n } : null; }
+  if (r.freq === 'monthly') { const d = Math.round(Number(r.day)); return d >= 1 && d <= 31 ? { freq: 'monthly', day: d } : null; }
+  return { freq: r.freq };
+}
+function validTimer(t) {
+  if (!isObj(t) || TIMER_MODES.indexOf(t.mode) < 0 || ['running', 'paused', 'ended'].indexOf(t.status) < 0) return null;
+  if (!finite(t.plannedSeconds) || t.plannedSeconds <= 0 || t.plannedSeconds > 6 * 3600 || !finite(t.startedAt) || !finite(t.pausedTotalMs) || t.pausedTotalMs < 0) return null;
+  if (t.pausedAt != null && !finite(t.pausedAt)) return null;
+  if ((t.status === 'paused' || t.status === 'ended') && t.pausedAt == null) return null;
+  const q = Array.isArray(t.queue) ? t.queue.filter((it) => isObj(it) && nonEmpty(it.id) && nonEmpty(it.name) && (it.kind === 'task' || it.kind === 'micro')).map((it) => ({
+    key: nonEmpty(it.key) ? it.key : uid('q'), kind: it.kind, id: it.id, name: clip(it.name, LIMITS.taskName), duration: finite(it.duration) ? it.duration : 2, done: !!it.done, logId: nonEmpty(it.logId) ? it.logId : null })) : [];
+  return { id: nonEmpty(t.id) ? t.id : uid('tm'), mode: t.mode, taskId: nonEmpty(t.taskId) ? t.taskId : null, label: nonEmpty(t.label) ? clip(t.label, LIMITS.taskName) : S.freeLabel,
+    instruction: typeof t.instruction === 'string' ? clip(t.instruction, 300) : '', plannedSeconds: Math.round(t.plannedSeconds), startedAt: t.startedAt,
+    pausedAt: t.pausedAt == null ? null : t.pausedAt, pausedTotalMs: t.pausedTotalMs, status: t.status, queue: q,
+    lastMarkMs: finite(t.lastMarkMs) && t.lastMarkMs >= 0 ? t.lastMarkMs : 0, endedEarly: t.status === 'ended' && t.endedEarly === true, source: typeof t.source === 'string' ? t.source : t.mode };
+}
+function validateData(input) {
+  const fail = (reason) => ({ ok: false, reason });
+  if (!isObj(input)) return fail('json');
+  if (input.app !== undefined && input.app !== APP_ID) return fail('app');
+  const sv = input.schemaVersion;
+  if (!finite(sv) || Math.round(sv) !== sv || sv < 1) return fail('version');
+  if (sv > SCHEMA_VERSION) return fail('newer');
+  const o = migrate(input, sv);
+  if (!Array.isArray(o.tasks) || !Array.isArray(o.areas)) return fail('core');
+  let skipped = 0, repaired = 0;
+  const today = D.today();
+
+  // Areas
+  const areas = [], areaIds = new Set(), areaNames = new Set();
+  for (const a of o.areas) {
+    if (!isObj(a) || !nonEmpty(a.id) || !nonEmpty(a.name) || areaIds.has(a.id)) { skipped++; continue; }
+    let name = clip(a.name.trim(), LIMITS.areaName), base = name, n = 2;
+    while (areaNames.has(name.toLowerCase())) { name = clip(base, LIMITS.areaName - 4) + ' (' + n++ + ')'; repaired++; }
+    areaIds.add(a.id); areaNames.add(name.toLowerCase());
+    areas.push({ id: a.id, name, isStarter: !!a.isStarter, createdAt: finite(a.createdAt) ? a.createdAt : 0 });
+  }
+  // Tasks
+  const tasks = [], taskIds = new Set();
+  for (const t of o.tasks) {
+    if (!isObj(t) || !nonEmpty(t.id) || !nonEmpty(t.name) || taskIds.has(t.id)) { skipped++; continue; }
+    let fixed = false;
+    let duration = t.duration;
+    if (DURATIONS.indexOf(duration) < 0) {
+      fixed = true;
+      duration = finite(duration) && duration > 0 ? DURATIONS.reduce((b, d) => Math.abs(d - duration) < Math.abs(b - duration) ? d : b, DURATIONS[0]) : 10;
+    }
+    const energy = ENERGIES.indexOf(t.energy) >= 0 ? t.energy : (fixed = true, 'medium');
+    const priority = PRIORITIES.indexOf(t.priority) >= 0 ? t.priority : (fixed = true, 'normal');
+    let type = t.type === 'repeat' ? 'repeat' : t.type === 'oneoff' ? 'oneoff' : (fixed = true, 'oneoff');
+    let recurrence = null;
+    if (type === 'repeat') { recurrence = validRecurrence(t.recurrence); if (!recurrence) { fixed = true; recurrence = { freq: 'weekly' }; } }
+    let areaId = null;
+    if (t.areaId != null) { if (areaIds.has(t.areaId)) areaId = t.areaId; else fixed = true; }
+    const subtasks = Array.isArray(t.subtasks) ? t.subtasks.filter((s) => isObj(s) && nonEmpty(s.text)).slice(0, LIMITS.subtasks)
+      .map((s, j) => ({ id: nonEmpty(s.id) ? s.id : t.id + '-s' + j, text: clip(s.text.trim(), LIMITS.subtask) })) : (t.subtasks == null ? [] : (fixed = true, []));
+    taskIds.add(t.id);
+    if (fixed) repaired++;
+    tasks.push({ id: t.id, starterId: nonEmpty(t.starterId) ? t.starterId : null, name: clip(t.name.trim(), LIMITS.taskName), areaId, duration, energy, priority, type,
+      recurrence, subtasks, notes: typeof t.notes === 'string' ? clip(t.notes, LIMITS.notes) : '', createdAt: finite(t.createdAt) ? t.createdAt : 0,
+      startDate: D.valid(t.startDate) ? t.startDate : today, deleted: !!t.deleted, isStarter: !!t.isStarter });
+  }
+  // Completion log
+  const completionLog = [], logIds = new Set();
+  for (const c of (Array.isArray(o.completionLog) ? o.completionLog : [])) {
+    if (!isObj(c) || !nonEmpty(c.id) || !nonEmpty(c.taskId) || !D.valid(c.localDate) || logIds.has(c.id)) { skipped++; continue; }
+    logIds.add(c.id);
+    completionLog.push({ id: c.id, taskId: c.taskId, localDate: c.localDate, timestamp: finite(c.timestamp) ? c.timestamp : 0,
+      secondsSpent: finite(c.secondsSpent) && c.secondsSpent >= 0 ? Math.round(c.secondsSpent) : 0, source: typeof c.source === 'string' ? clip(c.source, 20) : 'unknown',
+      areaNameSnapshot: typeof c.areaNameSnapshot === 'string' ? clip(c.areaNameSnapshot, LIMITS.areaName) : '', taskNameSnapshot: typeof c.taskNameSnapshot === 'string' ? clip(c.taskNameSnapshot, LIMITS.taskName) : '' });
+  }
+  // Time log (actual Focus Timer time — the only source for "cleaning time")
+  const timeLog = [], tlIds = new Set();
+  for (const e of (Array.isArray(o.timeLog) ? o.timeLog : [])) {
+    if (!isObj(e) || !nonEmpty(e.id) || !D.valid(e.localDate) || !finite(e.seconds) || e.seconds < 0 || tlIds.has(e.id)) { skipped++; continue; }
+    tlIds.add(e.id);
+    timeLog.push({ id: e.id, localDate: e.localDate, timestamp: finite(e.timestamp) ? e.timestamp : 0, seconds: Math.min(6 * 3600, Math.round(e.seconds)),
+      mode: TIMER_MODES.indexOf(e.mode) >= 0 ? e.mode : 'free', taskId: nonEmpty(e.taskId) ? e.taskId : null });
+  }
+  // Brain dumps
+  const brainDumps = [], bdIds = new Set();
+  for (const b of (Array.isArray(o.brainDumps) ? o.brainDumps : [])) {
+    if (!isObj(b) || !nonEmpty(b.id) || !nonEmpty(b.text) || bdIds.has(b.id)) { skipped++; continue; }
+    bdIds.add(b.id);
+    brainDumps.push({ id: b.id, text: clip(b.text, LIMITS.dump), createdAt: finite(b.createdAt) ? b.createdAt : 0, updatedAt: finite(b.updatedAt) ? b.updatedAt : 0,
+      convertedTaskIds: Array.isArray(b.convertedTaskIds) ? b.convertedTaskIds.filter(nonEmpty) : [] });
+  }
+  // Settings (known keys only, type-checked)
+  const settings = defaultSettings(), si = isObj(o.settings) ? o.settings : {};
+  if (typeof si.onboarded === 'boolean') settings.onboarded = si.onboarded;
+  if (ENERGIES.indexOf(si.lastEnergy) >= 0) settings.lastEnergy = si.lastEnergy;
+  if (SESSION_TIMES.indexOf(si.lastTime) >= 0) settings.lastTime = si.lastTime;
+  if (SESSION_TIMES.indexOf(si.lastQuickTime) >= 0) settings.lastQuickTime = si.lastQuickTime;
+  if (finite(si.lastBackupAt)) settings.lastBackupAt = si.lastBackupAt;
+  if (finite(si.installedAt)) settings.installedAt = si.installedAt;
+  ['nudgeTasks', 'nudgeBackup'].forEach((k) => { if (typeof si[k] === 'boolean') settings[k] = si[k]; });
+  ['nudgeDismissedDay', 'backupNudgeDismissedDay'].forEach((k) => { if (D.valid(si[k])) settings[k] = si[k]; });
+
+  const ss = isObj(o.sessionState) ? o.sessionState : {};
+  const sessionState = {};
+  if (isObj(ss.subChecks)) {
+    sessionState.subChecks = {};
+    for (const tid in ss.subChecks) { const v = ss.subChecks[tid]; if (isObj(v) && D.valid(v.day) && Array.isArray(v.ids)) sessionState.subChecks[tid] = { day: v.day, ids: v.ids.filter(nonEmpty) }; }
+  }
+  if (isObj(ss.rec) && D.valid(ss.rec.day) && ENERGIES.indexOf(ss.rec.energy) >= 0 && SESSION_TIMES.indexOf(ss.rec.time) >= 0 && Array.isArray(ss.rec.shown) && finite(ss.rec.swaps)) {
+    const cur = isObj(ss.rec.current) && (ss.rec.current.kind === 'task' || ss.rec.current.kind === 'micro') && nonEmpty(ss.rec.current.id) ? { kind: ss.rec.current.kind, id: ss.rec.current.id } : null;
+    sessionState.rec = { day: ss.rec.day, energy: ss.rec.energy, time: ss.rec.time, shown: ss.rec.shown.filter(nonEmpty), swaps: ss.rec.swaps, current: cur };
+  }
+  const data = { app: APP_ID, schemaVersion: SCHEMA_VERSION, appVersion: APP_VERSION,
+    meta: { rev: isObj(o.meta) && finite(o.meta.rev) ? o.meta.rev : 0, updatedAt: isObj(o.meta) && finite(o.meta.updatedAt) ? o.meta.updatedAt : 0 },
+    settings, areas, tasks, completionLog, timeLog, timerState: o.timerState == null ? null : validTimer(o.timerState),
+    brainDumps, sessionState, deletedStarterIds: Array.isArray(o.deletedStarterIds) ? o.deletedStarterIds.filter(nonEmpty) : [],
+    starterVersion: finite(o.starterVersion) ? o.starterVersion : 0 };
+  if (o.timerState != null && !data.timerState) repaired++;
+  return { ok: true, data, skipped, repaired,
+    counts: { tasks: tasks.filter((t) => !t.deleted).length, areas: areas.length, completions: completionLog.length, notes: brainDumps.length } };
+}
+const REASON_TEXT = { json: S.whyJson, app: S.whyApp, newer: S.whyNewer, version: S.whyVersion, core: S.whyCore, read: S.whyRead, empty: S.whyEmpty, big: S.whyBig };
+
+/* =====================================================================
+   7. STORAGE — one namespaced root key. Never resets silently.
+   Multi-tab safety: every save compares the stored revision with the
+   revision this tab last loaded; if another tab wrote in between, this tab
+   reloads the newer data instead of overwriting it.
+   ===================================================================== */
+let state = null;
+let storageOk = true;
+function storageAvailable() {
+  try { const k = APP_ID + '__test'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; } catch (e) { return false; }
+}
+function persist() {
+  if (!storageOk) return false;
+  let curRaw = null;
+  try { curRaw = localStorage.getItem(KEY); } catch (e) { showBanner('save', S.saveFailed); return false; }
+  if (curRaw) {
+    let cur = null; try { cur = JSON.parse(curRaw); } catch (e) { cur = null; }
+    if (cur && isObj(cur.meta) && finite(cur.meta.rev) && cur.meta.rev !== state.meta.rev) {
+      loadExternal(curRaw, S.otherTab);
+      return false;
+    }
+  }
+  state.meta.rev += 1; state.meta.updatedAt = Date.now();
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+    hideBanner('save');
+    return true;
+  } catch (e) {
+    state.meta.rev -= 1;
+    showBanner('save', S.saveFailed);
+    return false;
+  }
+}
+let conflictAt = 0; // set when this tab's change was rejected because another tab saved newer data
+function loadExternal(raw, message) {
+  let obj; try { obj = JSON.parse(raw); } catch (e) { return; }
+  const res = validateData(obj);
+  if (!res.ok) return;
+  state = res.data;
+  idxKey = '';
+  if (message === S.otherTab) conflictAt = Date.now();
+  if (!isFormRoute()) render(); // keep unsaved typing in an open task form
+  else { drawMinibar(parseHash().path); syncTicker(); }
+  if (message) toast(message);
+}
+const justConflicted = () => Date.now() - conflictAt < 1000;
+window.addEventListener('storage', (e) => {
+  if (e.key !== KEY || !state) return;
+  if (e.newValue == null) { location.reload(); return; } // data was reset/cleared in another tab
+  loadExternal(e.newValue, S.otherTabUpdated);
+});
+function downloadText(text, filename) {
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = h('a', { href: url, download: filename });
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+/* =====================================================================
+   8. STATE INDEX — derived lookups rebuilt only when data or the day changes.
+   ===================================================================== */
+let idx = null, idxKey = '';
+function ix() {
+  const today = D.today();
+  const key = state.meta.rev + '|' + today + '|' + state.completionLog.length + '|' + state.tasks.length;
+  if (idx && key === idxKey) return idx;
+  const last = new Map(), doneToday = new Set(), everDone = new Set();
+  for (const c of state.completionLog) {
+    everDone.add(c.taskId);
+    const p = last.get(c.taskId);
+    if (!p || c.localDate > p) last.set(c.taskId, c.localDate);
+    if (c.localDate === today) doneToday.add(c.taskId);
+  }
+  idx = { today, last, doneToday, everDone }; idxKey = key;
+  return idx;
+}
+const getTask = (id) => state.tasks.find((t) => t.id === id) || null;
+const getArea = (id) => state.areas.find((a) => a.id === id) || null;
+const liveTasks = () => state.tasks.filter((t) => !t.deleted);
+const areaName = (id) => { const a = id ? getArea(id) : null; return a ? a.name : S.noArea; };
+function winsToday() { const t = D.today(); return state.completionLog.filter((c) => c.localDate === t).length; }
+function minutesToday() { const t = D.today(); return Math.round(state.timeLog.filter((e) => e.localDate === t).reduce((s, e) => s + e.seconds, 0) / 60); }
+
+/* =====================================================================
+   9. RECURRENCE — due status is CALCULATED from the completion log.
+   No task copies are ever created, so missed days never pile up.
+   ===================================================================== */
+/* Due-date rules (all dates are local calendar dates):
+   • One-off:   due on its startDate (the day it was created, converted or imported). Done once = finished.
+   • Daily / every N days / weekly: never done → startDate; otherwise last completion + 1 / N / 7 days.
+   • Monthly on day D: never done → first day-D on/after startDate; otherwise the first day-D strictly
+     AFTER the last completion. Day D is clamped to the month length (31 → 30, 29 or 28), so no invalid dates. */
+function nextDue(t) {
+  if (t.type !== 'repeat' || !t.recurrence) return t.startDate;
+  const last = ix().last.get(t.id);
+  const r = t.recurrence;
+  if (r.freq === 'monthly') return last ? D.monthlyOnOrAfter(D.add(last, 1), r.day) : D.monthlyOnOrAfter(t.startDate, r.day);
+  return last ? D.add(last, recurrenceInterval(r)) : t.startDate;
+}
+// Days between expected repeats; used only to scale "how overdue" in ranking. One-off tasks use 7.
+function cadence(t) { return t.type === 'repeat' && t.recurrence ? recurrenceInterval(t.recurrence) : 7; }
+function taskStatus(t) {
+  const I = ix();
+  if (t.type !== 'repeat') {
+    if (I.doneToday.has(t.id)) return { kind: 'doneToday', lastDone: I.last.get(t.id) };
+    if (I.everDone.has(t.id)) return { kind: 'retired', lastDone: I.last.get(t.id) }; // one-off tasks are finished once done
+  }
+  const due = nextDue(t);
+  if (I.doneToday.has(t.id)) return { kind: 'doneToday', due, lastDone: I.today };
+  const d = D.diff(due, I.today);
+  return { kind: d < 0 ? 'overdue' : d === 0 ? 'due' : 'upcoming', due, daysUntil: d, overdueDays: d < 0 ? -d : 0 };
+}
+
+/* =====================================================================
+   10. RECOMMENDATION ENGINE
+   Eligibility (all must hold):
+     • not deleted • area exists or task is intentionally unassigned
+     • duration ≤ selected time • energy compatible:
+         Low → Low only; Medium → Low+Medium; High → all (High preferred)
+     • not completed today (one-off tasks: not completed ever)
+     • not already shown in this Help Me Start session
+   Score (higher wins). Weight ranges are ordered so a higher-ranked factor
+   generally outweighs the lower ones:
+     1. Due relevance   0–60  overdue 45 + up to 15 (how late vs its cadence),
+                              due today 40, upcoming 0–20 (closer to due = higher)
+     2. Priority        0–18  high 18, normal 9, low 0
+     3. Days since last 0–10  never done = 10, otherwise min(10, days)
+     4. Area rotation   −8    same area as the most recent completion today
+     5. Energy fit      0–8   exact match +5; High-energy user & High task +3 more
+     6. Duration fit    0–4   4 × (task minutes ÷ available minutes)
+   Tie-break: tasks within 8 points of the best score form the candidate pool
+   (max 3); one is chosen at random. Outside that window the best task always
+   wins, so randomness never makes recommendations chaotic.
+   ===================================================================== */
+function energyCompatible(taskEnergy, userEnergy) { return ENERGY_RANK[taskEnergy] <= ENERGY_RANK[userEnergy]; }
+function areaValid(t) { return t.areaId == null || !!getArea(t.areaId); }
+function isEligible(t, ctx) {
+  if (t.deleted || !areaValid(t)) return false;
+  if (t.duration > ctx.time) return false;
+  if (!energyCompatible(t.energy, ctx.energy)) return false;
+  const I = ix();
+  if (I.doneToday.has(t.id)) return false;
+  if (t.type !== 'repeat' && I.everDone.has(t.id)) return false;
+  if (ctx.shown && ctx.shown.indexOf(t.id) >= 0) return false;
+  return true;
+}
+function lastAreaToday() {
+  const today = D.today();
+  for (let i = state.completionLog.length - 1; i >= 0; i--) {
+    const c = state.completionLog[i];
+    if (c.localDate !== today) break;
+    const t = getTask(c.taskId);
+    if (t) return t.areaId || 'unsorted';
+  }
+  return null;
+}
+function scoreTask(t, ctx, recentArea) {
+  const st = taskStatus(t);
+  let due = 0;
+  if (st.kind === 'overdue') due = 45 + Math.min(15, (st.overdueDays / cadence(t)) * 5);
+  else if (st.kind === 'due') due = 40;
+  else if (st.kind === 'upcoming') due = Math.max(0, 20 - st.daysUntil * (20 / Math.max(1, cadence(t))));
+  const pri = t.priority === 'high' ? 18 : t.priority === 'normal' ? 9 : 0;
+  const last = ix().last.get(t.id);
+  const since = last ? Math.min(10, D.diff(D.today(), last)) : 10;
+  const rot = recentArea && (t.areaId || 'unsorted') === recentArea ? -8 : 0;
+  let en = t.energy === ctx.energy ? 5 : 0;
+  if (ctx.energy === 'high' && t.energy === 'high') en += 3;
+  const dur = 4 * Math.min(1, t.duration / ctx.time);
+  return due + pri + since + rot + en + dur;
+}
+function rankTasks(ctx) {
+  const recentArea = lastAreaToday();
+  return state.tasks.filter((t) => isEligible(t, ctx))
+    .map((t) => ({ t, score: Math.round(scoreTask(t, ctx, recentArea) * 100) / 100 }))
+    .sort((a, b) => b.score - a.score || a.t.id.localeCompare(b.t.id));
+}
+function recommend(ctx, rng) {
+  const ranked = rankTasks(ctx);
+  if (!ranked.length) return null;
+  const pool = ranked.filter((r) => r.score >= ranked[0].score - 8).slice(0, 3);
+  return pool[Math.floor((rng || Math.random)() * pool.length)].t;
+}
+function pickMicro(excludeIds) {
+  const free = MICRO.filter((m) => excludeIds.indexOf('micro:' + m.id) < 0);
+  const list = free.length ? free : MICRO;
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+/* Help Me Start session (persisted in sessionState.rec so a refresh never
+   shows a different task or loses the swap count). */
+function nextRecommendation(rec) {
+  let pick = null;
+  if (rec.swaps < MAX_SWAPS) pick = recommend({ energy: rec.energy, time: rec.time, shown: rec.shown });
+  if (pick) { rec.current = { kind: 'task', id: pick.id }; rec.shown.push(pick.id); }
+  else { const m = pickMicro(rec.shown); rec.current = { kind: 'micro', id: m.id }; rec.shown.push('micro:' + m.id); }
+}
+function startRecommendation(energy, time) {
+  state.settings.lastEnergy = energy; state.settings.lastTime = time;
+  const rec = { day: D.today(), energy, time, shown: [], swaps: 0, current: null };
+  nextRecommendation(rec);
+  state.sessionState.rec = rec;
+  persist();
+  go('help/result');
+}
+function somethingElse() {
+  const rec = state.sessionState.rec; if (!rec) return go('help');
+  if (rec.swaps >= MAX_SWAPS) return;
+  rec.swaps += 1;
+  nextRecommendation(rec);    // the 3rd swap always lands on a tiny fallback task
+  persist(); render();
+}
+function clearRec() { if (state.sessionState.rec) { delete state.sessionState.rec; persist(); } }
+
+/* Quick Clean queue (no energy selector, so all energy levels are allowed):
+   1. Low/Medium tasks first, in recommendation-engine order (preferred).
+   2. Then High-energy tasks, in engine order, if they still fit.
+   Each task is added only if it fits the remaining minutes (any length), so the TOTAL estimated
+   duration never exceeds the session. Max 6 items. Remaining time of 2+ minutes is filled with
+   2-minute tiny tasks. */
+function buildQuickQueue(minutes) {
+  const preferred = rankTasks({ energy: 'medium', time: minutes, shown: [] });
+  const high = rankTasks({ energy: 'high', time: minutes, shown: [] }).filter((r) => r.t.energy === 'high');
+  const q = []; let remaining = minutes;
+  for (const r of preferred.concat(high)) {
+    if (q.length >= 6) break;
+    if (r.t.duration <= remaining) { q.push({ key: uid('q'), kind: 'task', id: r.t.id, name: r.t.name, duration: r.t.duration, done: false, logId: null }); remaining -= r.t.duration; }
+  }
+  for (const m of MICRO) {
+    if (remaining < 2 || q.length >= 6) break;
+    q.push({ key: uid('q'), kind: 'micro', id: m.id, name: m.name, duration: 2, done: false, logId: null }); remaining -= 2;
+  }
+  return q;
+}
+
+/* =====================================================================
+   11. ACTIONS — tasks, completions, areas, brain dumps
+   ===================================================================== */
+function logCompletion(taskId, name, area, source, seconds) {
+  const entry = { id: uid('c'), taskId, localDate: D.today(), timestamp: Date.now(), secondsSpent: Math.max(0, Math.round(seconds || 0)),
+    source, areaNameSnapshot: clip(area || '', LIMITS.areaName), taskNameSnapshot: clip(name, LIMITS.taskName) };
+  state.completionLog.push(entry);
+  return entry;
+}
+// Idempotent: completing a task that is already done today does nothing.
+function completeTask(taskId, opts) {
+  opts = opts || {};
+  const t = getTask(taskId);
+  if (!t || t.deleted) return null;
+  const I = ix();
+  if (I.doneToday.has(t.id) || (t.type !== 'repeat' && I.everDone.has(t.id))) return null;
+  const e = logCompletion(t.id, t.name, t.areaId ? areaName(t.areaId) : '', opts.source || 'manual', opts.seconds);
+  if (opts.save !== false && persist() === false && justConflicted()) return null;
+  return e;
+}
+function completeMicro(key, source, seconds, save) {
+  const m = microById(String(key).replace('micro:', ''));
+  if (!m) return null;
+  const e = logCompletion('micro:' + m.id, m.name, '', source, seconds);
+  if (save !== false) persist();
+  return e;
+}
+function removeCompletion(id, save) {
+  const i = state.completionLog.findIndex((c) => c.id === id);
+  if (i < 0) return false;
+  state.completionLog.splice(i, 1);
+  if (save !== false) persist();
+  return true;
+}
+function completeWithUndo(taskId, source) {
+  const e = completeTask(taskId, { source });
+  render();
+  if (e) toast(S.niceWin, { undo: () => { removeCompletion(e.id); render(); } });
+}
+function uncompleteToday(taskId) {
+  const today = D.today();
+  for (let i = state.completionLog.length - 1; i >= 0; i--) {
+    const c = state.completionLog[i];
+    if (c.taskId === taskId && c.localDate === today) {
+      const removed = state.completionLog.splice(i, 1)[0];
+      persist(); render();
+      toast(S.markedNotDone, { undo: () => { if (!ix().doneToday.has(taskId)) { state.completionLog.push(removed); persist(); render(); } } });
+      return;
+    }
+  }
+}
+function deleteTask(id) {
+  const t = getTask(id); if (!t || t.deleted) return;
+  t.deleted = true;
+  const starterKey = t.isStarter ? (t.starterId || t.id) : null;
+  if (starterKey && state.deletedStarterIds.indexOf(starterKey) < 0) state.deletedStarterIds.push(starterKey);
+  if (state.timerState && state.timerState.taskId === id && state.timerState.mode === 'task') { /* timer keeps running; Done will simply not log */ }
+  persist();
+  toast(S.taskDeleted, { undo: () => {
+    const tt = getTask(id); if (!tt) return;
+    tt.deleted = false;
+    if (starterKey) state.deletedStarterIds = state.deletedStarterIds.filter((x) => x !== starterKey);
+    persist(); render();
+  } });
+}
+function subChecks(taskId) {
+  const sc = state.sessionState.subChecks && state.sessionState.subChecks[taskId];
+  return sc && sc.day === D.today() ? sc.ids : [];
+}
+function toggleSub(taskId, subId) {
+  if (!state.sessionState.subChecks) state.sessionState.subChecks = {};
+  const today = D.today();
+  let sc = state.sessionState.subChecks[taskId];
+  if (!sc || sc.day !== today) sc = state.sessionState.subChecks[taskId] = { day: today, ids: [] };
+  const i = sc.ids.indexOf(subId);
+  if (i >= 0) sc.ids.splice(i, 1); else sc.ids.push(subId);
+  persist(); render();
+}
+function cleanSessionState() {
+  const sc = state.sessionState.subChecks; const today = D.today();
+  if (sc) for (const k in sc) if (sc[k].day !== today) delete sc[k];
+  if (state.sessionState.rec && state.sessionState.rec.day !== today) delete state.sessionState.rec;
+}
+function areaNameError(name, exceptId) {
+  const n = name.trim();
+  if (!n) return S.errAreaName;
+  if (state.areas.some((a) => a.id !== exceptId && a.name.trim().toLowerCase() === n.toLowerCase())) return S.errAreaDup;
+  return null;
+}
+
+/* =====================================================================
+   12. FOCUS TIMER — remaining time is ALWAYS calculated from timestamps
+   (startedAt, pausedAt, pausedTotalMs), never by counting ticks, so it
+   survives refresh, tab switching, screen lock and throttled intervals.
+   State is written to storage only on state changes, never every second.
+   ===================================================================== */
+const Timer = {
+  elapsedMs(ts, now) { const end = ts.pausedAt != null ? ts.pausedAt : (now || Date.now()); return Math.max(0, end - ts.startedAt - ts.pausedTotalMs); },
+  remainingMs(ts) { return Math.max(0, ts.plannedSeconds * 1000 - Timer.elapsedMs(ts)); },
+  fmt(ms) { const s = Math.ceil(ms / 1000); return pad(Math.floor(s / 60)) + ':' + pad(s % 60); },
+  displayText(ts) { if (ts.status === 'ended') return ts.endedEarly ? S.finishedEarly : S.timesUp; const t = Timer.fmt(Timer.remainingMs(ts)); return ts.status === 'paused' ? S.pausedAt(t) : t; },
+  start(cfg) {
+    state.timerState = { id: uid('tm'), mode: cfg.mode, taskId: cfg.taskId || null, label: clip(cfg.label, LIMITS.taskName), instruction: cfg.instruction || '',
+      plannedSeconds: cfg.seconds, startedAt: Date.now(), pausedAt: null, pausedTotalMs: 0, status: 'running', queue: cfg.queue || [], lastMarkMs: 0, source: cfg.source || cfg.mode };
+    persist();
+  },
+  pause() { const ts = state.timerState; if (!ts || ts.status !== 'running') return; ts.pausedAt = Date.now(); ts.status = 'paused'; persist(); },
+  resume() { const ts = state.timerState; if (!ts || ts.status !== 'paused') return; ts.pausedTotalMs += Date.now() - ts.pausedAt; ts.pausedAt = null; ts.status = 'running'; persist(); },
+  // When time runs out the elapsed time is frozen at exactly the planned length.
+  checkEnd() {
+    const ts = state.timerState;
+    if (!ts || ts.status !== 'running') return false;
+    if (Timer.elapsedMs(ts) >= ts.plannedSeconds * 1000) {
+      ts.pausedAt = ts.startedAt + ts.pausedTotalMs + ts.plannedSeconds * 1000;
+      ts.status = 'ended'; persist(); return true;
+    }
+    return false;
+  },
+  finishEarly() { const ts = state.timerState; if (!ts || ts.status === 'ended') return; if (ts.status === 'running') ts.pausedAt = Date.now(); ts.status = 'ended'; ts.endedEarly = true; persist(); },
+  extend() {
+    const ts = state.timerState; if (!ts) return;
+    ts.plannedSeconds = Math.ceil(Timer.elapsedMs(ts) / 1000) + 300;
+    if (ts.pausedAt != null) { ts.pausedTotalMs += Date.now() - ts.pausedAt; ts.pausedAt = null; }
+    ts.status = 'running'; ts.endedEarly = false; persist();
+  },
+  elapsedSeconds(ts) { return Math.min(ts.plannedSeconds, Math.round(Timer.elapsedMs(ts) / 1000)); },
+  // Records the actual timed seconds (the source of "cleaning time") and clears the timer.
+  finalize() {
+    const ts = state.timerState; if (!ts) return 0;
+    const secs = Timer.elapsedSeconds(ts);
+    if (secs > 0) state.timeLog.push({ id: uid('tl'), localDate: D.today(), timestamp: Date.now(), seconds: secs, mode: ts.mode, taskId: ts.taskId });
+    state.timerState = null; persist();
+    return secs;
+  },
+  cancel() { state.timerState = null; persist(); }
+};
+async function startTimerSafely(cfg) {
+  const cur = state.timerState;
+  if (cur) {
+    const ok = await confirmSheet({ title: S.replaceTitle, text: S.replaceText(cur.label), confirm: S.replaceConfirm, cancel: S.keep });
+    if (!ok) return false;
+    if (state.timerState) Timer.finalize();
+  }
+  Timer.start(cfg);
+  clearRec();
+  go('timer');
+  return true;
+}
+function timerCfgForTask(t) { return { mode: 'task', taskId: t.id, label: t.name, instruction: firstStepOf(t), seconds: t.duration * 60, source: 'timer' }; }
+function timerCfgForMicro(m, source) { return { mode: 'task', taskId: 'micro:' + m.id, label: m.name, instruction: m.step, seconds: 120, source: source || 'timer' }; }
+function firstStepOf(t) { return t.subtasks && t.subtasks.length ? t.subtasks[0].text : S.genericStep; }
+
+function timerDone() {
+  const ts = state.timerState; if (!ts) return go('home');
+  const secs = Timer.elapsedSeconds(ts);
+  let entry = null;
+  if (ts.mode === 'task') {
+    entry = isMicroKey(ts.taskId) ? completeMicro(ts.taskId, ts.source, secs, false) : completeTask(ts.taskId, { source: ts.source, seconds: secs, save: false });
+  } else if (ts.mode === 'reset') {
+    entry = completeMicro('micro:reset', 'overwhelm', secs, false);
+  }
+  const wasReset = ts.mode === 'reset';
+  Timer.finalize();
+  if (wasReset) return go('enough');
+  go('done');
+  if (entry) toast(S.niceWin, { undo: () => { removeCompletion(entry.id); render(); } });
+}
+function timerStop() {
+  const ts = state.timerState; if (!ts) return go('home');
+  const wasReset = ts.mode === 'reset';
+  Timer.finalize();
+  if (wasReset) return go('enough');
+  go('home'); toast(S.stoppingOk);
+}
+async function timerCancel() {
+  const ok = await confirmSheet({ title: S.cancelTitle, text: S.cancelText, confirm: S.cancelConfirm, cancel: S.keepGoing, danger: true });
+  if (!ok || !state.timerState) return;
+  Timer.cancel(); go('home'); toast(S.timerCancelled);
+}
+function toggleQuickItem(i) {
+  const ts = state.timerState; if (!ts || !ts.queue[i]) return;
+  const it = ts.queue[i];
+  if (it.done) {
+    if (it.logId) removeCompletion(it.logId, false);
+    it.done = false; it.logId = null;
+  } else {
+    const el = Timer.elapsedMs(ts);
+    const secs = Math.max(0, Math.round((el - ts.lastMarkMs) / 1000));
+    ts.lastMarkMs = el;
+    const e = it.kind === 'micro' ? completeMicro('micro:' + it.id, 'quick', secs, false) : completeTask(it.id, { source: 'quick', seconds: secs, save: false });
+    it.done = true; it.logId = e ? e.id : null;
+  }
+  persist(); render();
+}
+let tickHandle = null;
+function syncTicker() {
+  const need = !!(state && state.timerState && state.timerState.status === 'running');
+  if (need && !tickHandle) tickHandle = setInterval(tick, 1000);
+  if (!need && tickHandle) { clearInterval(tickHandle); tickHandle = null; }
+}
+function tick() {
+  if (!state.timerState) { syncTicker(); return; }
+  if (Timer.checkEnd()) { render(); return; }
+  updateTimeDisplays();
+}
+function updateTimeDisplays() {
+  const ts = state.timerState; if (!ts) return;
+  const txt = Timer.displayText(ts);
+  document.querySelectorAll('[data-timer-time]').forEach((el) => { el.textContent = txt; });
+  const big = $('#timer-big'); if (big) big.textContent = ts.status === 'ended' && !ts.endedEarly ? '00:00' : Timer.fmt(Timer.remainingMs(ts));
+  const prog = $('#timer-prog');
+  if (prog) { const C = 2 * Math.PI * 90; prog.setAttribute('stroke-dashoffset', String(C * (1 - Math.min(1, Timer.elapsedMs(ts) / (ts.plannedSeconds * 1000))))); }
+}
+
+/* =====================================================================
+   13. UI PRIMITIVES — toast (with undo), banner, bottom sheets
+   ===================================================================== */
+let toastTimer = null;
+function toast(msg, opts) {
+  opts = opts || {};
+  // Never show a success message for a change that was just rejected by the multi-tab check.
+  if (justConflicted() && msg !== S.otherTab) return;
+  const el = $('#toast');
+  const kids = [h('span', { class: 'toast-msg' }, msg)];
+  if (opts.undo) kids.push(h('button', { class: 'toast-btn', type: 'button', onClick: act(() => { hideToast(); opts.undo(); }) }, S.undo));
+  kids.push(h('button', { class: 'toast-btn', type: 'button', 'aria-label': S.dismiss, onClick: hideToast }, '×'));
+  el.replaceChildren.apply(el, kids);
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, opts.undo ? 8000 : 5000);
+}
+function hideToast() { const el = $('#toast'); el.hidden = true; el.replaceChildren(); clearTimeout(toastTimer); }
+const banners = {};
+function showBanner(kind, msg) { banners[kind] = msg; drawBanner(); }
+function hideBanner(kind) { if (banners[kind]) { delete banners[kind]; drawBanner(); } }
+function drawBanner() {
+  const el = $('#banner'); const msgs = Object.keys(banners);
+  if (!msgs.length) { el.hidden = true; el.replaceChildren(); return; }
+  el.replaceChildren(h('p', {}, msgs.map((k) => banners[k]).join(' ')),
+    banners.save && !banners.storage ? h('button', { class: 'icon-btn', type: 'button', 'aria-label': S.dismiss, onClick: () => hideBanner('save') }, icon('close')) : null);
+  el.hidden = false;
+}
+let closeCurrentSheet = null;
+function openSheet(build) {
+  if (closeCurrentSheet) closeCurrentSheet(null);
+  return new Promise((resolve) => {
+    const prev = document.activeElement;
+    const root = $('#sheet-root');
+    let panel;
+    const onKey = (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); close(null); }
+      else if (e.key === 'Tab') {
+        const f = Array.prototype.filter.call(panel.querySelectorAll('button,input,select,textarea,[href]'), (x) => !x.disabled && x.offsetParent !== null);
+        if (!f.length) return;
+        if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      }
+    };
+    function close(val) {
+      if (closeCurrentSheet !== close) return;
+      closeCurrentSheet = null;
+      root.hidden = true; root.replaceChildren();
+      document.removeEventListener('keydown', onKey, true);
+      document.body.classList.remove('sheet-open');
+      if (prev && prev.isConnected) { try { prev.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+      resolve(val);
+    }
+    closeCurrentSheet = close;
+    panel = h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'sheet-title' }, build(close));
+    root.replaceChildren(h('div', { class: 'backdrop', onClick: () => close(null) }), panel);
+    root.hidden = false;
+    document.body.classList.add('sheet-open');
+    document.addEventListener('keydown', onKey, true);
+    setTimeout(() => {
+      const f = panel.querySelector('input:not([type=checkbox]),textarea,select') || panel.querySelector('[data-primary]') || panel.querySelector('button');
+      if (f) try { f.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+    }, 40);
+  });
+}
+function confirmSheet(o) {
+  return openSheet((close) => {
+    let input = null;
+    const confirmBtn = h('button', { class: 'btn ' + (o.danger ? 'btn-danger-solid' : 'btn-primary'), type: 'button', 'data-primary': true, onClick: () => close(true) }, o.confirm);
+    if (o.typeToConfirm) {
+      confirmBtn.disabled = true;
+      input = h('input', { class: 'input', type: 'text', autocomplete: 'off', autocapitalize: 'characters', 'aria-label': o.typeToConfirm, onInput: (e) => { confirmBtn.disabled = e.target.value.trim() !== o.typeToConfirm; } });
+    }
+    return [h('h2', { class: 'h2', id: 'sheet-title' }, o.title), o.text ? h('p', { class: 'muted' }, o.text) : null,
+      input ? h('div', { class: 'field' }, input) : null,
+      h('div', { class: 'btn-row' }, confirmBtn, h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => close(false) }, o.cancel || S.cancel))];
+  });
+}
+function promptSheet(o) {
+  return openSheet((close) => {
+    const err = h('p', { class: 'error', id: 'prompt-err', role: 'alert' });
+    const input = h('input', { class: 'input', type: 'text', maxlength: o.maxLength, autocomplete: 'off', 'aria-describedby': 'prompt-err', id: 'prompt-in', props: { value: o.value || '' } });
+    const submit = () => { const v = input.value.trim(); const e = o.validate ? o.validate(v) : null; if (e) { err.textContent = e; input.focus(); return; } close(v); };
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+    return [h('h2', { class: 'h2', id: 'sheet-title' }, o.title), h('label', { class: 'field-label', for: 'prompt-in' }, o.label), input, err,
+      h('div', { class: 'btn-row' }, h('button', { class: 'btn btn-primary', type: 'button', onClick: submit }, o.confirm || S.save),
+        h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => close(null) }, S.cancel))];
+  });
+}
+
+/* =====================================================================
+   14. SCREENS
+   ===================================================================== */
+const ui = { tasksShowAll: false, tasksTab: 'today', helpEnergy: null, helpTime: null, quickPlan: null, minimumStep: 0, dumpDraft: '', expandedDumps: {}, lastPath: undefined, q: new URLSearchParams() };
+
+function topbar(backTo) {
+  return h('div', { class: 'topbar' }, h('button', { class: 'icon-btn', type: 'button', 'aria-label': S.back, onClick: () => replaceRoute(backTo) }, icon('back')));
+}
+function pageHead(title, lede) { return h('header', { class: 'page-head' }, h('h1', { class: 'title' }, title), lede ? h('p', { class: 'lede' }, lede) : null); }
+function metaLine(parts, energy) { return h('p', { class: 'meta' }, energy ? energyIcon(energy) : null, h('span', {}, parts.filter(Boolean).join(' · '))); }
+
+/* ---------- First run (one screen max) ---------- */
+function screenWelcome() {
+  const finish = (to) => { state.settings.onboarded = true; persist(); go(to); };
+  return h('div', { class: 'screen' },
+    pageHead(S.firstTitle, S.firstLede),
+    h('div', { class: 'card card-sage' }, h('p', {}, S.firstReady)),
+    h('div', { class: 'callout' }, h('p', { class: 'small' }, S.firstDataNotice)),
+    h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'first-help', onClick: act(() => finish('help')) }, h('span', { class: 'hero-t' }, S.firstStart), h('span', { class: 'hero-s' }, S.helpSub)),
+    h('button', { class: 'btn btn-quiet', type: 'button', onClick: act(() => finish('home')) }, S.firstLook));
+}
+
+/* ---------- Home ---------- */
+function nudgeTask() {
+  if (!state.settings.nudgeTasks || state.settings.nudgeDismissedDay === D.today()) return null;
+  const ctx = { energy: 'high', time: 60, shown: [] };
+  const cands = rankTasks(ctx).filter((r) => r.t.type === 'repeat' && ['overdue', 'due'].indexOf(taskStatus(r.t).kind) >= 0);
+  return cands.length ? cands[0].t : null;
+}
+function needsBackupNudge() {
+  if (DEMO) return false;
+  const s = state.settings;
+  if (!s.nudgeBackup || s.backupNudgeDismissedDay === D.today()) return false;
+  if (!state.completionLog.length && !state.brainDumps.length) return false;
+  const since = s.lastBackupAt || s.installedAt || Date.now();
+  return Date.now() - since > BACKUP_NUDGE_DAYS * 864e5;
+}
+function screenHome() {
+  if (!state.settings.onboarded) return screenWelcome();
+  const wins = winsToday(), mins = minutesToday(), ts = state.timerState;
+  const kids = [pageHead(S.welcome, S.welcomeSub),
+    h('section', { class: 'card', 'aria-labelledby': 'today-h' },
+      h('h2', { id: 'today-h', class: 'eyebrow' }, S.todaysCleaning),
+      h('p', { class: 'wins' }, icon('leaf'), h('span', {}, wins ? S.wins(wins) : S.noWins)),
+      mins ? h('p', { class: 'muted small' }, S.focusedToday(mins)) : null)];
+  if (ts) {
+    kids.push(h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'continue', onClick: () => go('timer') },
+      h('span', { class: 'hero-t' }, S.continueCleaning), h('span', { class: 'hero-s' }, ts.label + ' · ', h('span', { 'data-timer-time': '' }, Timer.displayText(ts)))));
+    kids.push(h('button', { class: 'btn btn-secondary', type: 'button', fk: 'help2', onClick: () => go('help') }, icon('sparkle'), S.helpMeStart));
+  } else {
+    kids.push(h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'help', onClick: () => go('help') },
+      h('span', { class: 'hero-t' }, S.helpMeStart), h('span', { class: 'hero-s' }, S.helpSub)));
+  }
+  kids.push(h('div', { class: 'cta-row' },
+    h('button', { class: 'btn btn-secondary', type: 'button', fk: 'quick', onClick: () => go('quick') }, icon('bolt'), S.quickClean),
+    h('button', { class: 'btn btn-secondary', type: 'button', fk: 'over', onClick: () => go('overwhelm') }, icon('wind'), S.overwhelmed)));
+  const nt = nudgeTask();
+  if (nt) kids.push(h('div', { class: 'card nudge' }, icon('bell'), h('div', {}, h('p', {}, S.nudgeTask(nt.name)),
+    h('div', { class: 'nudge-actions' }, h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => go('task/' + nt.id) }, S.nudgeOpen),
+      h('button', { class: 'btn btn-quiet', type: 'button', onClick: act(() => { state.settings.nudgeDismissedDay = D.today(); persist(); render(); }) }, S.nudgeLater)))));
+  if (needsBackupNudge()) kids.push(h('div', { class: 'card nudge' }, icon('download'), h('div', {}, h('p', {}, S.nudgeBackup),
+    h('div', { class: 'nudge-actions' }, h('button', { class: 'btn btn-ghost', type: 'button', onClick: act(exportBackup) }, S.nudgeBackupBtn),
+      h('button', { class: 'btn btn-quiet', type: 'button', onClick: act(() => { state.settings.backupNudgeDismissedDay = D.today(); persist(); render(); }) }, S.nudgeLater)))));
+  kids.push(demoHomeCard());
+  return h('div', { class: 'screen' }, kids);
+}
+
+/* ---------- Help Me Start ---------- */
+function screenHelp() {
+  const s = state.settings;
+  const energy = ui.helpEnergy || s.lastEnergy || 'medium';
+  const time = ui.helpTime || s.lastTime || 10;
+  return h('div', { class: 'screen' }, topbar('home'), pageHead(S.helpMeStart),
+    h('section', {}, h('h2', { class: 'field-label', id: 'en-h' }, S.howEnergy),
+      h('div', { class: 'seg seg-3', role: 'group', 'aria-labelledby': 'en-h' }, ENERGIES.map((e) =>
+        h('button', { type: 'button', fk: 'en-' + e, 'aria-pressed': String(e === energy), onClick: () => { ui.helpEnergy = e; render(); } }, energyIcon(e), h('span', {}, S.energyShort[e])))),
+      h('p', { class: 'hint' }, S.energyHint)),
+    h('section', {}, h('h2', { class: 'field-label', id: 'tm-h' }, S.howTime),
+      h('div', { class: 'seg seg-4', role: 'group', 'aria-labelledby': 'tm-h' }, SESSION_TIMES.map((m) =>
+        h('button', { type: 'button', fk: 'tm-' + m, 'aria-pressed': String(m === time), onClick: () => { ui.helpTime = m; render(); } }, S.min(m))))),
+    h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'show', onClick: act(() => { ui.helpEnergy = null; ui.helpTime = null; startRecommendation(energy, time); }) },
+      h('span', { class: 'hero-t' }, S.showMe)));
+}
+function screenRecResult() {
+  const rec = state.sessionState.rec;
+  if (!rec || rec.day !== D.today() || !rec.current) { replaceHash('#/help'); ui.lastPath = 'help'; return screenHelp(); }
+  // If the current task changed elsewhere (deleted / completed in another tab), pick again.
+  if (rec.current.kind === 'task') { const t = getTask(rec.current.id); if (!t || !isEligible(t, { energy: rec.energy, time: rec.time, shown: [] })) { nextRecommendation(rec); persist(); } }
+  const isMicro = rec.current.kind === 'micro';
+  const t = isMicro ? null : getTask(rec.current.id);
+  const m = isMicro ? microById(rec.current.id) : null;
+  const name = isMicro ? m.name : t.name;
+  const step = isMicro ? m.step : firstStepOf(t);
+  const meta = isMicro ? [S.min(2), S.energyLong.low] : [areaName(t.areaId), S.min(t.duration), S.energyLong[t.energy]];
+  const canSwap = rec.swaps < MAX_SWAPS && !(isMicro && rec.swaps >= MAX_SWAPS);
+  return h('div', { class: 'screen' }, topbar('help'),
+    h('article', { class: 'card rec-card', 'aria-live': 'polite' },
+      h('p', { class: 'eyebrow' }, isMicro ? S.tinyThing : S.yourOneThing),
+      h('h1', { class: 'title rec-title' }, name),
+      metaLine(meta, isMicro ? 'low' : t.energy),
+      h('div', { class: 'first-step' }, h('p', { class: 'eyebrow' }, S.firstStep), h('p', { class: 'step' }, step))),
+    h('div', { class: 'btn-row' },
+      h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'rec-start', onClick: act(() => startTimerSafely(isMicro ? timerCfgForMicro(m, 'help') : Object.assign(timerCfgForTask(t), { source: 'help' }))) },
+        h('span', { class: 'hero-t' }, S.start)),
+      canSwap ? h('button', { class: 'btn btn-secondary', type: 'button', fk: 'rec-else', onClick: act(somethingElse) }, S.somethingElse)
+        : rec.swaps >= MAX_SWAPS ? h('p', { class: 'hint', style: 'text-align:center', 'data-last-swap': '' }, S.lastSwap) : null,
+      h('button', { class: 'btn btn-quiet', type: 'button', fk: 'rec-notnow', onClick: act(() => { clearRec(); go('home'); }) }, S.notNow)));
+}
+
+/* ---------- Quick Clean ---------- */
+function screenQuick() {
+  const sel = state.settings.lastQuickTime || 10;
+  return h('div', { class: 'screen' }, topbar('home'), pageHead(S.quickTitle, S.quickLede),
+    h('section', {}, h('h2', { class: 'field-label', id: 'q-h' }, S.quickHow),
+      h('div', { class: 'seg seg-2', role: 'group', 'aria-labelledby': 'q-h' }, SESSION_TIMES.map((m) =>
+        h('button', { type: 'button', fk: 'qt-' + m, 'aria-pressed': String(m === sel), onClick: act(() => {
+          state.settings.lastQuickTime = m; persist();
+          ui.quickPlan = { minutes: m, queue: buildQuickQueue(m) };
+          go('quick/plan');
+        }) }, h('span', { class: 'h2' }, S.min(m)))))));
+}
+function screenQuickPlan() {
+  if (!ui.quickPlan) { const m = state.settings.lastQuickTime || 10; ui.quickPlan = { minutes: m, queue: buildQuickQueue(m) }; }
+  const p = ui.quickPlan;
+  return h('div', { class: 'screen' }, topbar('quick'), pageHead(S.quickPlanTitle(p.minutes), S.quickPlanLede),
+    p.queue.length ? h('ol', { class: 'plan-list card' }, p.queue.map((it) => h('li', {}, h('span', { class: 'p-name' }, it.name), h('span', { class: 'muted' }, S.min(it.duration)))))
+      : h('p', { class: 'empty' }, S.quickEmpty),
+    h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'q-start', disabled: !p.queue.length, onClick: act(async () => {
+      const ok = await startTimerSafely({ mode: 'quick', label: S.quickPlanTitle(p.minutes), seconds: p.minutes * 60, queue: clone(p.queue), source: 'quick' });
+      if (ok) ui.quickPlan = null;
+    }) }, h('span', { class: 'hero-t' }, S.quickStart)));
+}
+
+/* ---------- Overwhelmed ---------- */
+function screenOverwhelm() {
+  const opt = (t, sub, onClick, ic, fk) => h('button', { class: 'link-item', type: 'button', fk, onClick }, icon(ic), h('span', { class: 'li-body' }, h('span', { class: 'li-t' }, t), h('span', { class: 'li-s' }, sub)));
+  return h('div', { class: 'screen' }, topbar('home'), pageHead(S.overTitle, S.overLede),
+    h('div', {},
+      opt(S.overReset, S.overResetSub, act(() => startTimerSafely({ mode: 'reset', label: S.overReset, instruction: S.resetInstruction, seconds: 120, source: 'overwhelm' })), 'timer', 'ov-reset'),
+      opt(S.overTiny, S.overTinySub, () => { ui.tiny = pickMicro([]).id; go('tiny'); }, 'leaf', 'ov-tiny'),
+      opt(S.overMin, S.overMinSub, () => { ui.minimumStep = 0; go('minimum'); }, 'heart', 'ov-min')));
+}
+function screenTiny() {
+  const m = microById(ui.tiny) || (ui.tiny = pickMicro([]).id, microById(ui.tiny));
+  return h('div', { class: 'screen' }, topbar('overwhelm'),
+    h('article', { class: 'card rec-card' }, h('p', { class: 'eyebrow' }, S.tinyThing), h('h1', { class: 'title rec-title' }, m.name),
+      h('div', { class: 'first-step' }, h('p', { class: 'step' }, m.step))),
+    h('div', { class: 'btn-row' },
+      h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'tiny-done', onClick: act(() => { completeMicro(m.id, 'overwhelm', 0); ui.tiny = null; go('enough'); }) }, h('span', { class: 'hero-t' }, S.done)),
+      h('button', { class: 'btn btn-quiet', type: 'button', onClick: () => { ui.tiny = null; go('home'); } }, S.notNow)));
+}
+function screenMinimum() {
+  const i = Math.min(ui.minimumStep || 0, MINIMUM_CLEAN.length - 1);
+  const m = microById(MINIMUM_CLEAN[i]);
+  const last = i === MINIMUM_CLEAN.length - 1;
+  return h('div', { class: 'screen' }, topbar('overwhelm'),
+    h('article', { class: 'card rec-card' }, h('p', { class: 'eyebrow' }, S.minStep(i + 1, MINIMUM_CLEAN.length)), h('h1', { class: 'title rec-title' }, m.name),
+      h('div', { class: 'first-step' }, h('p', { class: 'step' }, m.step))),
+    h('div', { class: 'btn-row' },
+      h('button', { class: 'btn btn-primary btn-hero', type: 'button', fk: 'min-done-' + i, onClick: act(() => {
+        completeMicro(m.id, 'overwhelm', 0);
+        if (last) { ui.minimumStep = 0; go('enough'); } else { ui.minimumStep = i + 1; render(); }
+      }) }, h('span', { class: 'hero-t' }, last ? S.done : S.doneNext)),
+      h('button', { class: 'btn btn-quiet', type: 'button', onClick: () => { ui.minimumStep = 0; go('enough'); } }, S.enoughBtn)));
+}
+function screenEnough() {
+  return h('div', { class: 'screen calm' }, h('span', { class: 'heart', 'aria-hidden': 'true' }, '♥'), h('h1', { class: 'title' }, S.enoughTitle), h('p', { class: 'lede' }, S.enoughLede),
+    h('button', { class: 'btn btn-primary', type: 'button', fk: 'enough-home', onClick: () => go('home') }, S.backHome));
+}
+function screenDone() {
+  const w = winsToday();
+  return h('div', { class: 'screen calm' }, h('span', { class: 'heart', 'aria-hidden': 'true' }, '♥'), h('h1', { class: 'title' }, S.doneTitle),
+    h('p', { class: 'lede' }, w ? S.wins(w) : ''),
+    h('div', { class: 'btn-row' }, h('button', { class: 'btn btn-primary', type: 'button', fk: 'done-more', onClick: () => go('help') }, S.oneMore),
+      h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => go('home') }, S.doneForNow)));
+}
+
+/* ---------- Tasks ---------- */
+function statusText(t, st) {
+  switch (st.kind) {
+    case 'doneToday': return S.doneToday;
+    case 'retired': return S.doneOn(D.label(st.lastDone));
+    case 'overdue': return S.readyWhenYouAre;
+    case 'due': return S.dueToday;
+    case 'upcoming': return t.type === 'repeat' ? S.nextOn(D.label(st.due)) : S.dueOn(D.label(st.due));
+    default: return S.anytime;
+  }
+}
+function taskRow(t, opts) {
+  opts = opts || {};
+  const st = taskStatus(t);
+  const done = st.kind === 'doneToday', retired = st.kind === 'retired';
+  const meta = [opts.hideArea ? null : areaName(t.areaId), S.min(t.duration), S.energyLong[t.energy]];
+  return h('li', { class: 'row' + (done || retired ? ' is-done' : '') },
+    h('button', { class: 'row-main', type: 'button', fk: 'row-' + t.id, onClick: () => go('task/' + t.id) },
+      h('span', { class: 'row-name' }, t.name),
+      h('span', { class: 'row-meta' }, energyIcon(t.energy), h('span', {}, meta.filter(Boolean).join(' · '))),
+      h('span', { class: 'row-status' }, statusText(t, st))),
+    retired ? null : h('button', { class: 'check', type: 'button', fk: 'chk-' + t.id, 'aria-pressed': String(done), 'aria-label': done ? S.undoCompleteLabel(t.name) : S.completeLabel(t.name),
+      onClick: act(() => done ? uncompleteToday(t.id) : completeWithUndo(t.id, 'list')) }, h('span', { class: 'ring' }, done ? icon('check') : null)));
+}
+function sortByScore(list) {
+  const ctx = { energy: 'high', time: 60 }; const ra = lastAreaToday();
+  return list.map((t) => ({ t, s: scoreTask(t, ctx, ra) })).sort((a, b) => b.s - a.s || a.t.id.localeCompare(b.t.id)).map((x) => x.t);
+}
+function section(title, items, opts) {
+  if (!items.length) return null;
+  return h('section', {}, h('div', { class: 'section-h' }, h('h2', { class: 'h2' }, title)), h('ul', { class: 'list' }, items.map((t) => taskRow(t, opts))));
+}
+function screenTasks() {
+  const tab = ui.tasksTab;
+  const tabs = [['today', S.tabToday], ['quick', S.tabQuick], ['all', S.tabAll]];
+  const live = liveTasks().filter(areaValidOrFix);
+  let body;
+  if (tab === 'today') {
+    const withSt = live.map((t) => ({ t, st: taskStatus(t) }));
+    const overdue = sortByScore(withSt.filter((x) => x.st.kind === 'overdue').map((x) => x.t));
+    const dueT = sortByScore(withSt.filter((x) => x.st.kind === 'due').map((x) => x.t));
+    const done = withSt.filter((x) => x.st.kind === 'doneToday').map((x) => x.t);
+    const shown = new Set(overdue.concat(dueT).map((t) => t.id));
+    const quick = sortByScore(withSt.filter((x) => !shown.has(x.t.id) && x.t.duration <= 5 && x.st.kind === 'upcoming').map((x) => x.t)).slice(0, 3);
+    // Compact view: only the TODAY_LIMIT most useful due/overdue tasks (existing score order); the rest stay one tap away.
+    const actionable = sortByScore(overdue.concat(dueT));
+    const hiddenCount = ui.tasksShowAll ? 0 : Math.max(0, actionable.length - TODAY_LIMIT);
+    const visibleIds = new Set(actionable.slice(0, actionable.length - hiddenCount).map((t) => t.id));
+    const showAllBtn = actionable.length > TODAY_LIMIT ? h('button', { class: 'btn btn-quiet', type: 'button', fk: 'tasks-showall', 'aria-expanded': String(!!ui.tasksShowAll),
+      onClick: () => { ui.tasksShowAll = !ui.tasksShowAll; render(); } }, ui.tasksShowAll ? S.showFewer : S.showAll(hiddenCount)) : null;
+    body = [section(S.secReady, overdue.filter((t) => visibleIds.has(t.id))), section(S.secToday, dueT.filter((t) => visibleIds.has(t.id))), showAllBtn,
+      section(S.secQuick, quick), section(S.secDone, done)].filter(Boolean);
+    if (!overdue.length && !dueT.length && !quick.length) body.unshift(h('div', { class: 'empty' }, h('p', {}, S.todayEmpty), h('button', { class: 'btn btn-secondary', type: 'button', onClick: () => go('help') }, S.helpMeStart)));
+  } else if (tab === 'quick') {
+    const list = sortByScore(live.filter((t) => { const k = taskStatus(t).kind; return t.duration <= 5 && k !== 'doneToday' && k !== 'retired'; }));
+    body = list.length ? [h('ul', { class: 'list', style: 'margin-top:12px' }, list.map((t) => taskRow(t)))] : [h('p', { class: 'empty' }, S.quickEmptyList)];
+  } else {
+    const active = live.filter((t) => !isRetired(t));
+    const groups = state.areas.map((a) => ({ name: a.name, tasks: active.filter((t) => t.areaId === a.id) }));
+    groups.push({ name: S.noArea, tasks: active.filter((t) => t.areaId == null) });
+    body = groups.filter((g) => g.tasks.length).map((g) => section(g.name, g.tasks.sort((a, b) => a.name.localeCompare(b.name)), { hideArea: true }));
+    if (!body.length) body = [h('div', { class: 'empty' }, h('p', {}, S.allEmpty))];
+  }
+  return h('div', { class: 'screen' },
+    h('div', { style: 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:8px' }, h('h1', { class: 'title' }, S.tasksTitle),
+      h('button', { class: 'btn btn-secondary', type: 'button', fk: 'add-task', style: 'width:auto', onClick: () => go('task/new') }, icon('plus'), S.addTask)),
+    h('div', { class: 'tabs', role: 'tablist', 'aria-label': S.tasksTitle }, tabs.map(([id, label]) =>
+      h('button', { role: 'tab', type: 'button', fk: 'tab-' + id, 'aria-selected': String(tab === id), onClick: () => { ui.tasksTab = id; render(); } }, label))),
+    h('div', { role: 'tabpanel' }, body));
+}
+// Safety net: a task pointing at an area that no longer exists is shown as Unsorted.
+// A one-off task completed on an earlier day is finished: kept in storage and history, hidden from active lists.
+function isRetired(t) { return taskStatus(t).kind === 'retired'; }
+function areaValidOrFix(t) { if (t.areaId != null && !getArea(t.areaId)) t.areaId = null; return true; }
+
+function screenTask(id) {
+  const t = getTask(id);
+  if (!t || t.deleted) return h('div', { class: 'screen' }, topbar('tasks'), h('div', { class: 'empty' }, h('p', {}, S.taskGone), h('button', { class: 'btn btn-secondary', type: 'button', onClick: () => go('tasks') }, S.tasksTitle)));
+  const st = taskStatus(t);
+  const done = st.kind === 'doneToday', retired = st.kind === 'retired';
+  const checks = subChecks(t.id);
+  const allChecked = t.subtasks.length > 0 && t.subtasks.every((s) => checks.indexOf(s.id) >= 0);
+  const chips = [h('span', { class: 'chip' }, icon('areas'), areaName(t.areaId)), h('span', { class: 'chip' }, icon('timer'), S.min(t.duration)),
+    h('span', { class: 'chip' }, energyIcon(t.energy), S.energyLong[t.energy]), h('span', { class: 'chip' }, S.priorityLong[t.priority]),
+    h('span', { class: 'chip' }, icon('calendar'), t.type === 'repeat' ? S.freqText(t.recurrence) : S.oneOff)];
+  return h('div', { class: 'screen' }, topbar('tasks'),
+    h('header', {}, h('h1', { class: 'title' }, t.name), h('p', { class: 'row-status', style: 'margin-top:6px' }, statusText(t, st)), h('div', { class: 'chips' }, chips)),
+    t.subtasks.length ? h('section', {}, h('h2', { class: 'h2', id: 'steps-h', style: 'margin-bottom:8px' }, S.steps),
+      h('ul', { class: 'substeps', 'aria-labelledby': 'steps-h' }, t.subtasks.map((s) => {
+        const on = checks.indexOf(s.id) >= 0;
+        return h('li', {}, h('button', { class: 'substep', type: 'button', role: 'checkbox', fk: 'sub-' + s.id, 'aria-checked': String(on), onClick: act(() => toggleSub(t.id, s.id), 150) },
+          h('span', { class: 'box' }, on ? icon('check') : null), h('span', { class: 'sub-t' }, s.text)));
+      }))) : null,
+    allChecked && !done && !retired ? h('div', { class: 'callout' }, h('p', {}, S.allStepsDone),
+      h('button', { class: 'btn btn-primary', type: 'button', style: 'margin-top:10px', fk: 'sub-complete', onClick: act(() => completeWithUndo(t.id, 'detail')) }, S.yesComplete)) : null,
+    t.notes ? h('section', {}, h('h2', { class: 'h2', style: 'margin-bottom:6px' }, S.notes), h('p', { class: 'notes card' }, t.notes)) : null,
+    h('div', { class: 'btn-row' },
+      retired ? null : h('button', { class: 'btn btn-primary', type: 'button', fk: 'd-timer', onClick: act(() => startTimerSafely(Object.assign(timerCfgForTask(t), { source: 'detail' }))) }, icon('play'), S.startTimer),
+      retired ? null : done ? h('button', { class: 'btn btn-secondary', type: 'button', fk: 'd-undo', 'aria-pressed': 'true', onClick: act(() => uncompleteToday(t.id)) }, icon('check'), S.doneToday)
+        : h('button', { class: 'btn btn-secondary', type: 'button', fk: 'd-complete', onClick: act(() => completeWithUndo(t.id, 'detail')) }, icon('check'), S.markComplete),
+      h('div', { class: 'btn-row btn-row-2' },
+        h('button', { class: 'btn btn-ghost', type: 'button', fk: 'd-edit', onClick: () => go('task/' + t.id + '/edit') }, S.edit),
+        h('button', { class: 'btn btn-danger', type: 'button', fk: 'd-delete', onClick: act(() => { deleteTask(t.id); replaceRoute('tasks'); }) }, S.delete))));
+}
+
+/* ---------- Task form ---------- */
+function segField(label, id, options, value, onPick, cls) {
+  const wrap = h('div', { class: 'seg ' + (cls || 'seg-3') + ' seg-sm', role: 'group', 'aria-labelledby': id });
+  const btns = options.map(([v, text, ic]) => h('button', { type: 'button', 'aria-pressed': String(v === value), onClick: () => {
+    btns.forEach((b) => b.setAttribute('aria-pressed', 'false')); btnFor[v].setAttribute('aria-pressed', 'true'); onPick(v);
+  } }, ic || null, h('span', {}, text)));
+  const btnFor = {}; options.forEach(([v], i) => { btnFor[v] = btns[i]; });
+  appendKids(wrap, btns);
+  return h('div', { class: 'field' }, h('p', { class: 'field-label', id }, label), wrap);
+}
+function screenTaskForm(editId) {
+  const editing = editId ? getTask(editId) : null;
+  if (editId && (!editing || editing.deleted)) return h('div', { class: 'screen' }, topbar('tasks'), h('p', { class: 'empty' }, S.taskGone));
+  if (editing && editing.isStarter) return demoStarterEditScreen(editing);
+  if (!editing && demoSlots() < 1) return demoLimitScreen();
+  const qArea = ui.q.get('area');
+  const f = editing ? clone(editing) : { name: '', areaId: qArea && getArea(qArea) ? qArea : null, duration: 10, energy: 'medium', priority: 'normal', type: 'oneoff', recurrence: null, subtasks: [], notes: '' };
+  if (!f.recurrence) f.recurrence = { freq: 'weekly' };
+  const backTo = editing ? 'task/' + editing.id : (qArea ? 'area/' + qArea : 'tasks');
+
+  const nameErr = h('p', { class: 'error', id: 'name-err', role: 'alert' });
+  const nameIn = h('input', { class: 'input', id: 'f-name', type: 'text', maxlength: LIMITS.taskName, autocomplete: 'off', 'aria-describedby': editing ? 'name-err' : 'name-hint name-err', props: { value: f.name } });
+  nameIn.addEventListener('input', () => { nameErr.textContent = ''; });
+  const areaSel = h('select', { class: 'select', id: 'f-area' }, state.areas.map((a) => h('option', { value: a.id }, a.name)), h('option', { value: '' }, S.noArea));
+  areaSel.value = f.areaId || '';
+  const durSel = h('select', { class: 'select', id: 'f-dur' }, DURATIONS.map((d) => h('option', { value: String(d) }, S.min(d))));
+  durSel.value = String(f.duration);
+  const nIn = h('input', { class: 'input', id: 'f-n', type: 'number', inputmode: 'numeric', min: 2, max: LIMITS.everyNMax, 'aria-describedby': 'n-err', props: { value: String(f.recurrence.n || 3) } });
+  const nErr = h('p', { class: 'error', id: 'n-err', role: 'alert' });
+  const daySel = h('select', { class: 'select', id: 'f-day' }, Array.from({ length: 31 }, (_, i) => h('option', { value: String(i + 1) }, String(i + 1))));
+  daySel.value = String(f.recurrence.day || Number(D.today().slice(8)));
+  const dayHint = h('p', { class: 'hint' }, S.dayHint);
+  const nWrap = h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-n' }, S.fEveryN), nIn, nErr);
+  const dayWrap = h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-day' }, S.fDay), daySel, dayHint);
+  const weeklyHint = h('p', { class: 'hint' }, S.weeklyHint);
+  const freqSel = h('select', { class: 'select', id: 'f-freq' }, FREQS.map((fq) => h('option', { value: fq }, S.freqLabels[fq])));
+  freqSel.value = f.recurrence.freq;
+  const recWrap = h('div', {}, h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-freq' }, S.fFreq), freqSel, weeklyHint), nWrap, dayWrap);
+  const syncRec = () => {
+    recWrap.hidden = f.type !== 'repeat';
+    nWrap.hidden = freqSel.value !== 'everyN'; dayWrap.hidden = freqSel.value !== 'monthly'; weeklyHint.hidden = freqSel.value !== 'weekly';
+    dayHint.hidden = Number(daySel.value) <= 28;
+  };
+  freqSel.addEventListener('change', syncRec); daySel.addEventListener('change', syncRec);
+
+  const subList = h('div', {});
+  const addStepBtn = h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => { if (f.subtasks.length >= LIMITS.subtasks) return; f.subtasks.push({ id: uid('s'), text: '' }); drawSubs(true); } }, icon('plus'), S.addStep);
+  function drawSubs(focusLast) {
+    subList.replaceChildren();
+    f.subtasks.forEach((s, i) => {
+      const inp = h('input', { class: 'input', type: 'text', maxlength: LIMITS.subtask, 'aria-label': S.stepLabel(i + 1), props: { value: s.text } });
+      inp.addEventListener('input', () => { s.text = inp.value; });
+      subList.appendChild(h('div', { class: 'sub-editor' }, inp,
+        h('button', { class: 'icon-btn', type: 'button', 'aria-label': S.removeStep(i + 1), onClick: () => { f.subtasks.splice(i, 1); drawSubs(); } }, icon('close'))));
+      if (focusLast && i === f.subtasks.length - 1) setTimeout(() => inp.focus(), 0);
+    });
+    addStepBtn.disabled = f.subtasks.length >= LIMITS.subtasks;
+  }
+  drawSubs();
+  const notesIn = h('textarea', { class: 'textarea', id: 'f-notes', maxlength: LIMITS.notes, props: { value: f.notes } });
+
+  const save = act(() => {
+    const name = nameIn.value.trim();
+    if (!name) { nameErr.textContent = S.errName; nameIn.focus(); return; }
+    let recurrence = null;
+    if (f.type === 'repeat') {
+      const fq = freqSel.value;
+      if (fq === 'everyN') {
+        const n = Number(nIn.value);
+        if (!Number.isInteger(n) || n < 2 || n > LIMITS.everyNMax) { nErr.textContent = S.errEveryN; nIn.focus(); return; }
+        recurrence = { freq: 'everyN', n };
+      } else if (fq === 'monthly') recurrence = { freq: 'monthly', day: Number(daySel.value) };
+      else recurrence = { freq: fq };
+    }
+    const areaId = areaSel.value && getArea(areaSel.value) ? areaSel.value : null;
+    const subtasks = f.subtasks.map((s) => ({ id: s.id, text: s.text.trim() })).filter((s) => s.text).slice(0, LIMITS.subtasks);
+    const data = { name: clip(name, LIMITS.taskName), areaId, duration: Number(durSel.value), energy: f.energy, priority: f.priority, type: f.type, recurrence, subtasks, notes: clip(notesIn.value, LIMITS.notes) };
+    if (DURATIONS.indexOf(data.duration) < 0) data.duration = 10;
+    let id;
+    if (editing) {
+      const t = getTask(editing.id);
+      if (!t || t.deleted) { toast(S.taskGone); return go('tasks'); }
+      // Changing one-off ↔ repeating never changes the schedule: the existing date is kept as-is.
+      if (!D.valid(t.startDate)) t.startDate = D.today();
+      if (t.isStarter) return;   // FREE DEMO: starter tasks are not editable
+      Object.assign(t, data); id = t.id;
+    } else {
+      if (demoSlots() < 1) { demoLimitSheet(); return; }   // FREE DEMO: hard limit (checked again at save time)
+      demoRecordCreated(1);
+      id = uid('t');
+      state.tasks.push(Object.assign({ id, starterId: null, createdAt: Date.now(), startDate: D.today(), deleted: false, isStarter: false }, data));
+    }
+    if (persist() !== false) { toast(S.saved); replaceRoute('task/' + id); }
+  });
+
+  const node = h('form', { class: 'screen', novalidate: true, onSubmit: (e) => { e.preventDefault(); save(e); } }, topbar(backTo), pageHead(editing ? S.editTask : S.newTask),
+    h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-name' }, S.fName), nameIn, editing ? null : h('p', { class: 'hint', id: 'name-hint' }, S.nameHint), editing ? null : h('p', { class: 'hint demo-slots', 'data-demo-slots': '' }, S.demoSlots(demoSlots())), nameErr),
+    h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-area' }, S.fArea), areaSel),
+    h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-dur' }, S.fDuration), durSel),
+    segField(S.fEnergy, 'f-energy', ENERGIES.map((e) => [e, S.energyShort[e], energyIcon(e)]), f.energy, (v) => { f.energy = v; }),
+    segField(S.fPriority, 'f-pri', PRIORITIES.map((p) => [p, S.priorityShort[p]]), f.priority, (v) => { f.priority = v; }),
+    segField(S.fType, 'f-type', [['oneoff', S.oneOff], ['repeat', S.repeats]], f.type, (v) => { f.type = v; syncRec(); }, 'seg-2'),
+    recWrap,
+    h('div', { class: 'field' }, h('p', { class: 'field-label' }, S.fSteps), subList, addStepBtn),
+    h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'f-notes' }, S.fNotes), notesIn),
+    h('div', { class: 'btn-row', style: 'margin-top:24px' }, h('button', { class: 'btn btn-primary', type: 'submit', fk: 'f-save' }, S.save),
+      h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => replaceRoute(backTo) }, S.cancel)));
+  syncRec();
+  return node;
+}
+
+/* ---------- Areas ---------- */
+function areaCounts(areaId) {
+  const ts = liveTasks().filter((t) => (areaId === 'unsorted' ? t.areaId == null : t.areaId === areaId) && !isRetired(t));
+  const ready = ts.filter((t) => { const k = taskStatus(t).kind; return k === 'overdue' || k === 'due'; }).length;
+  return [ts.length, ready];
+}
+async function addArea() {
+  const name = await promptSheet({ title: S.addArea, label: S.areaName, maxLength: LIMITS.areaName, validate: (v) => areaNameError(v), confirm: S.save });
+  if (name == null || areaNameError(name)) return;
+  state.areas.push({ id: uid('a'), name: clip(name, LIMITS.areaName), isStarter: false, createdAt: Date.now() });
+  persist(); render(); toast(S.saved);
+}
+function screenAreas() {
+  const unsortedCount = areaCounts('unsorted')[0];
+  const cards = state.areas.map((a) => { const [n, r] = areaCounts(a.id); return h('button', { class: 'area-card', type: 'button', fk: 'area-' + a.id, onClick: () => go('area/' + a.id) }, h('span', { class: 'a-name' }, a.name), h('span', { class: 'a-meta' }, S.areaTasks(n, r))); });
+  if (unsortedCount) { const [n, r] = areaCounts('unsorted'); cards.push(h('button', { class: 'area-card', type: 'button', onClick: () => go('area/unsorted') }, h('span', { class: 'a-name' }, S.noArea), h('span', { class: 'a-meta' }, S.areaTasks(n, r)))); }
+  return h('div', { class: 'screen' },
+    h('div', { style: 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:8px' }, h('h1', { class: 'title' }, S.areasTitle),
+      h('button', { class: 'btn btn-secondary', type: 'button', fk: 'add-area', style: 'width:auto', onClick: act(addArea) }, icon('plus'), S.addArea)),
+    cards.length ? h('div', { class: 'area-grid' }, cards) : h('div', { class: 'empty' }, h('p', {}, S.noAreas)));
+}
+function screenArea(id) {
+  const unsorted = id === 'unsorted';
+  const a = unsorted ? null : getArea(id);
+  if (!unsorted && !a) return h('div', { class: 'screen' }, topbar('areas'), h('p', { class: 'empty' }, S.notFound));
+  const tasks = liveTasks().filter((t) => (unsorted ? t.areaId == null : t.areaId === id) && !isRetired(t));
+  const ordered = sortByScore(tasks.filter((t) => { const k = taskStatus(t).kind; return k !== 'doneToday' && k !== 'retired'; }))
+    .concat(tasks.filter((t) => { const k = taskStatus(t).kind; return k === 'doneToday' || k === 'retired'; }));
+  return h('div', { class: 'screen' }, topbar('areas'), pageHead(unsorted ? S.noArea : a.name),
+    ordered.length ? h('ul', { class: 'list' }, ordered.map((t) => taskRow(t, { hideArea: true }))) : h('p', { class: 'empty' }, S.areaEmpty),
+    h('button', { class: 'btn btn-secondary', type: 'button', fk: 'area-add-task', onClick: () => go('task/new?area=' + (unsorted ? 'unsorted' : a.id)) }, icon('plus'), S.addTaskHere),
+    unsorted ? null : h('div', { class: 'btn-row btn-row-2' },
+      h('button', { class: 'btn btn-ghost', type: 'button', fk: 'area-rename', onClick: act(async () => {
+        const name = await promptSheet({ title: S.renameArea, label: S.areaName, value: a.name, maxLength: LIMITS.areaName, validate: (v) => areaNameError(v, a.id) });
+        if (name == null || areaNameError(name, a.id) || !getArea(a.id)) return;
+        getArea(a.id).name = clip(name, LIMITS.areaName); persist(); render(); toast(S.saved);
+      }) }, S.renameArea),
+      h('button', { class: 'btn btn-danger', type: 'button', fk: 'area-delete', onClick: act(async () => {
+        const count = tasks.length;
+        const ok = await confirmSheet({ title: S.areaDeleteTitle(a.name), text: S.areaDeleteText(count), confirm: S.deleteArea, danger: true });
+        if (!ok || !getArea(a.id)) return;
+        state.tasks.forEach((t) => { if (t.areaId === a.id) t.areaId = null; });
+        state.areas = state.areas.filter((x) => x.id !== a.id);
+        if (a.isStarter && state.deletedStarterIds.indexOf('area:' + a.id) < 0) state.deletedStarterIds.push('area:' + a.id);
+        persist(); replaceRoute('areas'); toast(S.areaDeleted);
+      }) }, S.deleteArea)));
+}
+
+/* ---------- More ---------- */
+function screenMore() {
+  const items = [['schedule', 'calendar'], ['timer', 'timer'], ['progress', 'chart'], ['dump', 'note'], ['reminders', 'bell'], ['settings', 'gear']];
+  return h('div', { class: 'screen' }, pageHead(S.moreTitle), h('ul', { class: 'link-list' }, items.map(([k, ic]) =>
+    h('li', {}, h('a', { class: 'link-item', href: '#/' + k, 'data-fk': 'more-' + k }, icon(ic), h('span', { class: 'li-body' }, h('span', { class: 'li-t' }, S.more[k][0]), h('span', { class: 'li-s' }, S.more[k][1])), h('span', { class: 'chev' }, icon('chev')))))));
+}
+
+/* ---------- Schedule ---------- */
+function screenSchedule() {
+  const rep = liveTasks().filter((t) => t.type === 'repeat').map((t) => ({ t, st: taskStatus(t) }));
+  const overdue = sortByScore(rep.filter((x) => x.st.kind === 'overdue').map((x) => x.t));
+  const dueT = sortByScore(rep.filter((x) => x.st.kind === 'due').map((x) => x.t));
+  const today = D.today();
+  const upcoming = rep.filter((x) => (x.st.kind === 'upcoming' || x.st.kind === 'doneToday') && D.diff(x.st.due, today) > 0 && D.diff(x.st.due, today) <= 14)
+    .sort((a, b) => a.st.due.localeCompare(b.st.due) || a.t.name.localeCompare(b.t.name));
+  const byDay = [];
+  upcoming.forEach((x) => { let g = byDay[byDay.length - 1]; if (!g || g.day !== x.st.due) byDay.push(g = { day: x.st.due, tasks: [] }); g.tasks.push(x.t); });
+  const parts = [section(S.secReady, overdue), section(S.secToday, dueT)];
+  if (byDay.length) parts.push(h('section', {}, h('div', { class: 'section-h' }, h('h2', { class: 'h2' }, S.schedUpcoming)),
+    byDay.map((g) => h('div', {}, h('p', { class: 'eyebrow', style: 'margin:14px 0 6px' }, D.label(g.day)), h('ul', { class: 'list' }, g.tasks.map((t) => taskRow(t)))))));
+  const has = parts.some(Boolean);
+  return h('div', { class: 'screen' }, topbar('more'), pageHead(S.schedTitle, S.schedLede), has ? parts : h('p', { class: 'empty' }, S.schedEmpty));
+}
+
+/* ---------- Focus Timer ---------- */
+function screenTimer() {
+  const ts = state.timerState;
+  if (!ts) {
+    return h('div', { class: 'screen' }, topbar('more'), pageHead(S.timerTitle, S.timerLede),
+      h('div', { class: 'seg seg-2', role: 'group', 'aria-label': S.timerTitle }, SESSION_TIMES.map((m) =>
+        h('button', { type: 'button', fk: 'ft-' + m, onClick: act(() => startTimerSafely({ mode: 'free', label: S.freeLabel, seconds: m * 60, source: 'free' })) }, h('span', { class: 'h2' }, S.min(m)), h('span', { class: 'small muted' }, S.timerStartFree)))));
+  }
+  const C = 2 * Math.PI * 90;
+  const frac = Math.min(1, Timer.elapsedMs(ts) / (ts.plannedSeconds * 1000));
+  const ended = ts.status === 'ended';
+  const kids = [topbar('home'), h('header', { style: 'text-align:center' }, h('h1', { class: 'title' }, ts.label), ts.instruction ? h('p', { class: 'lede' }, ts.instruction) : null)];
+  const ring = h('div', { class: 'timer-ring', role: 'timer', 'aria-label': S.timerTitle });
+  ring.innerHTML = '<svg viewBox="0 0 200 200" aria-hidden="true"><circle class="track" cx="100" cy="100" r="90" fill="none" stroke-width="10"/><circle id="timer-prog" class="prog" cx="100" cy="100" r="90" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - frac)) + '"/></svg>';
+  ring.appendChild(h('div', { class: 'timer-time', id: 'timer-big' }, ended && !ts.endedEarly ? '00:00' : Timer.fmt(Timer.remainingMs(ts))));
+  kids.push(h('div', { class: 'timer-wrap' }, ring), h('p', { class: 'timer-state', 'aria-live': 'polite' }, ended ? (ts.endedEarly ? S.finishedEarly : S.timesUp) : ts.status === 'paused' ? S.paused : ''),
+    ended ? null : h('p', { class: 'hint', style: 'text-align:center', 'data-silent-note': '' }, S.silentTimer));
+  if (ts.mode === 'quick' && ts.queue.length) {
+    kids.push(h('div', {}, ts.queue.map((it, i) => h('button', { class: 'queue-item', type: 'button', role: 'checkbox', fk: 'qi-' + it.key, 'aria-checked': String(it.done), onClick: act(() => toggleQuickItem(i), 250) },
+      h('span', { class: 'box' }, it.done ? icon('check') : null), h('span', { class: 'q-name' }, it.name), h('span', { class: 'q-min' }, S.min(it.duration))))));
+  }
+  if (ended) {
+    const q = ts.mode === 'quick' ? S.timerDoneQuick : (ts.mode === 'free' || ts.mode === 'reset') && ts.endedEarly ? S.timerDoneEarly : ts.mode === 'free' ? S.timerDoneFree : ts.mode === 'reset' ? S.timerDoneReset : S.timerDoneQ;
+    kids.push(h('section', { class: 'card card-sage', 'aria-labelledby': 'end-h' }, h('h2', { class: 'h2', id: 'end-h' }, q),
+      ts.mode === 'quick' ? h('p', { class: 'small', style: 'margin-top:6px', 'data-only-ticked': '' }, S.onlyTickedSaved) : null,
+      h('div', { class: 'btn-row', style: 'margin-top:12px' },
+        h('button', { class: 'btn btn-primary', type: 'button', fk: 't-done', onClick: act(timerDone) }, S.done),
+        h('button', { class: 'btn btn-secondary', type: 'button', fk: 't-more', onClick: act(() => { Timer.extend(); render(); }) }, S.need5),
+        h('button', { class: 'btn btn-ghost', type: 'button', fk: 't-stop', onClick: act(timerStop) }, S.stopHere))));
+  } else {
+    kids.push(h('div', { class: 'btn-row btn-row-2' },
+      ts.status === 'running' ? h('button', { class: 'btn btn-primary', type: 'button', fk: 't-pause', onClick: act(() => { Timer.pause(); render(); }) }, S.pause)
+        : h('button', { class: 'btn btn-primary', type: 'button', fk: 't-resume', onClick: act(() => { Timer.resume(); render(); }) }, S.resume),
+      h('button', { class: 'btn btn-secondary', type: 'button', fk: 't-finish', onClick: act(() => { Timer.finishEarly(); render(); }) }, S.finish)),
+      h('button', { class: 'btn btn-quiet', type: 'button', fk: 't-cancel', onClick: act(timerCancel) }, S.cancelTimer));
+  }
+  return h('div', { class: 'screen' }, kids);
+}
+
+/* ---------- Progress ---------- */
+function screenProgress() {
+  const today = D.today(), ws = D.weekStart(today), we = D.add(ws, 6);
+  const inWeek = (k) => k >= ws && k <= we;
+  const wLog = state.completionLog.filter((c) => inWeek(c.localDate));
+  const wSecs = state.timeLog.filter((e) => inWeek(e.localDate)).reduce((s, e) => s + e.seconds, 0);
+  const areas = Array.from(new Set(wLog.map((c) => c.areaNameSnapshot).filter(Boolean))).sort();
+  const totalSecs = state.timeLog.reduce((s, e) => s + e.seconds, 0);
+  const days = Array.from({ length: 7 }, (_, i) => D.add(ws, i));
+  const empty = !state.completionLog.length && !state.timeLog.length;
+  return h('div', { class: 'screen' }, topbar('more'), pageHead(S.progressTitle),
+    empty ? h('div', { class: 'card card-sage' }, h('p', {}, S.progressEmpty)) : null,
+    h('section', {}, h('h2', { class: 'eyebrow', style: 'margin-bottom:8px' }, S.thisWeek),
+      h('div', { class: 'stats' },
+        h('div', { class: 'stat' }, h('span', { class: 'stat-n' }, String(wLog.length)), h('span', { class: 'stat-l' }, S.statWins)),
+        h('div', { class: 'stat' }, h('span', { class: 'stat-n' }, String(Math.round(wSecs / 60))), h('span', { class: 'stat-l' }, S.statMins)),
+        h('div', { class: 'stat' }, h('span', { class: 'stat-n' }, String(areas.length)), h('span', { class: 'stat-l' }, S.statAreas)))),
+    h('section', { class: 'card' }, h('h2', { class: 'h2', style: 'margin-bottom:8px' }, S.weeklyWins),
+      h('div', { class: 'week' }, days.map((k) => {
+        const n = state.completionLog.filter((c) => c.localDate === k).length;
+        const wd = D.weekday(k);
+        return h('div', { class: 'day' + (k === today ? ' is-today' : ''), role: 'img', 'aria-label': S.dayWins(wd, n) }, h('span', { class: 'day-l', 'aria-hidden': 'true' }, wd), h('span', { class: 'day-dot' + (n ? ' has' : ''), 'aria-hidden': 'true' }, n ? String(n) : ''));
+      }))),
+    areas.length ? h('section', {}, h('h2', { class: 'eyebrow', style: 'margin-bottom:8px' }, S.areasTouched), h('div', { class: 'chips' }, areas.map((a) => h('span', { class: 'chip' }, a)))) : null,
+    empty ? null : h('p', { class: 'muted small' }, S.allTime(state.completionLog.length, Math.round(totalSecs / 60))));
+}
+
+/* ---------- Brain Dump ---------- */
+function saveDump(text) {
+  const item = { id: uid('b'), text: clip(text, LIMITS.dump), createdAt: Date.now(), updatedAt: Date.now(), convertedTaskIds: [] };
+  state.brainDumps.unshift(item);
+  return item;
+}
+async function convertDump(dumpId) {
+  const item = state.brainDumps.find((b) => b.id === dumpId);
+  if (!item || item.convertedTaskIds.length) return;
+  const slots0 = demoSlots();
+  if (slots0 < 1) { demoLimitSheet(); return; }   // FREE DEMO: nothing can be converted
+  const allLines = item.text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const lines = allLines.slice(0, LIMITS.dumpLines);
+  const picked = lines.map((_, i) => i < slots0);   // FREE DEMO: pre-tick only as many lines as there are slots
+  const result = await openSheet((close) => {
+    const err = h('p', { class: 'error', role: 'alert' });
+    const areaSel = h('select', { class: 'select', id: 'conv-area' }, h('option', { value: '' }, S.noArea), state.areas.map((a) => h('option', { value: a.id }, a.name)));
+    const createBtn = h('button', { class: 'btn btn-primary', type: 'button', 'data-primary': true });
+    const syncBtn = () => { createBtn.textContent = S.convertBtn(picked.filter(Boolean).length); };
+    createBtn.addEventListener('click', () => { if (!picked.some(Boolean)) { err.textContent = S.convertNone; return; } close({ areaId: areaSel.value || null }); });
+    syncBtn();
+    return [h('h2', { class: 'h2', id: 'sheet-title' }, S.convertTitle), h('p', { class: 'muted' }, S.convertLede),
+      allLines.length > lines.length ? h('p', { class: 'hint' }, S.convertMax(LIMITS.dumpLines)) : null,
+      lines.length > slots0 ? h('p', { class: 'hint demo-slots', 'data-demo-convert': '' }, S.demoConvertLimit(slots0)) : null,
+      h('ul', { class: 'substeps', style: 'margin-top:12px' }, lines.map((l, i) => {
+        const b = h('button', { class: 'substep', type: 'button', role: 'checkbox', 'aria-checked': String(picked[i]) }, h('span', { class: 'box' }, picked[i] ? icon('check') : null), h('span', { class: 'sub-t' }, clip(l, LIMITS.taskName) + (l.length > LIMITS.taskName ? '…' : '')));
+        b.addEventListener('click', () => { if (!picked[i] && picked.filter(Boolean).length >= demoSlots()) { err.textContent = S.demoConvertLimit(demoSlots()); return; } picked[i] = !picked[i]; b.setAttribute('aria-checked', String(picked[i])); b.firstChild.replaceChildren(picked[i] ? icon('check') : ''); err.textContent = ''; syncBtn(); });
+        return h('li', {}, b);
+      })),
+      h('div', { class: 'field' }, h('label', { class: 'field-label', for: 'conv-area' }, S.convertArea), areaSel), err,
+      h('div', { class: 'btn-row' }, createBtn, h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => close(null) }, S.cancel))];
+  });
+  if (!result) return;
+  const fresh = state.brainDumps.find((b) => b.id === dumpId);
+  if (!fresh || fresh.convertedTaskIds.length) return; // already converted (double tap / other tab)
+  const areaId = result.areaId && getArea(result.areaId) ? result.areaId : null;
+  const wanted = picked.filter(Boolean).length;
+  if (wanted > demoSlots()) { demoLimitSheet(); return; }   // FREE DEMO: re-checked at commit; nothing is created
+  demoRecordCreated(wanted);
+  const ids = [];
+  lines.forEach((l, i) => {
+    if (!picked[i]) return;
+    const id = uid('t'); ids.push(id);
+    state.tasks.push({ id, starterId: null, name: clip(l, LIMITS.taskName), areaId, duration: 10, energy: 'medium', priority: 'normal', type: 'oneoff', recurrence: null,
+      subtasks: [], notes: l.length > LIMITS.taskName ? clip(S.convertNoteFrom + '\n' + l, LIMITS.notes) : '', createdAt: Date.now(), startDate: D.today(), deleted: false, isStarter: false });
+  });
+  fresh.convertedTaskIds = ids;
+  persist(); render();
+  toast(S.convertDone(ids.length), { undo: () => {
+    state.tasks.forEach((t) => { if (ids.indexOf(t.id) >= 0) t.deleted = true; });
+    const b = state.brainDumps.find((x) => x.id === dumpId); if (b) b.convertedTaskIds = [];
+    persist(); render();
+  } });
+}
+function screenDump() {
+  const ta = h('textarea', { class: 'textarea textarea-big', id: 'dump-in', maxlength: LIMITS.dump, 'aria-describedby': 'dump-hint dump-err', props: { value: ui.dumpDraft } });
+  const err = h('p', { class: 'error', id: 'dump-err', role: 'alert' });
+  const counter = h('p', { class: 'counter', 'aria-hidden': 'true' }, ui.dumpDraft.length + ' / ' + LIMITS.dump);
+  ta.addEventListener('input', () => { ui.dumpDraft = ta.value; err.textContent = ''; counter.textContent = ta.value.length + ' / ' + LIMITS.dump; });
+  const take = () => { const v = ta.value.trim(); if (!v) { err.textContent = S.dumpEmptyErr; ta.focus(); return null; } ui.dumpDraft = ''; return saveDump(v); };
+  return h('div', { class: 'screen' }, topbar('more'), pageHead(S.dumpTitle),
+    h('div', {}, h('label', { class: 'field-label', for: 'dump-in' }, S.dumpPrompt), ta, counter, h('p', { class: 'hint', id: 'dump-hint' }, S.dumpHint), err),
+    h('div', { class: 'btn-row btn-row-2' },
+      h('button', { class: 'btn btn-primary', type: 'button', fk: 'dump-save', onClick: act(() => { const it = take(); if (!it) return; persist(); render(); toast(S.dumpSaved); }) }, S.dumpSave),
+      h('button', { class: 'btn btn-secondary', type: 'button', fk: 'dump-convert', onClick: act(async () => { const it = take(); if (!it) return; persist(); render(); await convertDump(it.id); }) }, S.dumpToTasks)),
+    state.brainDumps.length ? h('section', {}, state.brainDumps.map(dumpItem)) : h('p', { class: 'empty' }, S.dumpEmpty));
+}
+function dumpItem(b) {
+  const long = b.text.length > 280 || b.text.split('\n').length > 6;
+  const expanded = !!ui.expandedDumps[b.id];
+  return h('article', { class: 'dump-item' },
+    h('p', { class: 'dump-text' + (long && !expanded ? ' clamped' : '') }, b.text),
+    h('p', { class: 'muted small', style: 'margin-top:6px' }, D.label(D.keyOf(b.createdAt || Date.now()))),
+    h('div', { class: 'dump-actions' },
+      long ? h('button', { class: 'btn btn-quiet', type: 'button', 'aria-expanded': String(expanded), onClick: () => { ui.expandedDumps[b.id] = !expanded; render(); } }, expanded ? S.showLess : S.showMore) : null,
+      b.convertedTaskIds.length ? h('span', { class: 'done-tag' }, icon('check'), S.convertedTag(b.convertedTaskIds.length))
+        : h('button', { class: 'btn btn-secondary', type: 'button', fk: 'dc-' + b.id, onClick: act(() => convertDump(b.id)) }, S.dumpToTasks),
+      h('button', { class: 'btn btn-ghost', type: 'button', fk: 'de-' + b.id, onClick: act(async () => {
+        const v = await openSheet((close) => {
+          const t = h('textarea', { class: 'textarea textarea-big', maxlength: LIMITS.dump, 'aria-label': S.dumpEdit, props: { value: b.text } });
+          const e = h('p', { class: 'error', role: 'alert' });
+          return [h('h2', { class: 'h2', id: 'sheet-title' }, S.dumpEdit), t, e, h('div', { class: 'btn-row' },
+            h('button', { class: 'btn btn-primary', type: 'button', onClick: () => { const x = t.value.trim(); if (!x) { e.textContent = S.dumpEmptyErr; return; } close(x); } }, S.save),
+            h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => close(null) }, S.cancel))];
+        });
+        const cur = state.brainDumps.find((x) => x.id === b.id);
+        if (v == null || !cur) return;
+        cur.text = clip(v, LIMITS.dump); cur.updatedAt = Date.now(); persist(); render(); toast(S.saved);
+      }) }, S.edit),
+      h('button', { class: 'btn btn-danger', type: 'button', fk: 'dd-' + b.id, onClick: act(() => {
+        const i = state.brainDumps.findIndex((x) => x.id === b.id); if (i < 0) return;
+        const removed = state.brainDumps.splice(i, 1)[0]; persist(); render();
+        toast(S.dumpDeleted, { undo: () => { if (!state.brainDumps.some((x) => x.id === removed.id)) { state.brainDumps.splice(Math.min(i, state.brainDumps.length), 0, removed); persist(); render(); } } });
+      }) }, S.delete)));
+}
+
+/* ---------- Gentle Reminders ---------- */
+function switchRow(title, sub, on, onToggle, fk) {
+  return h('button', { class: 'switch-row', type: 'button', role: 'switch', 'aria-checked': String(on), fk, onClick: act(onToggle, 200) },
+    h('span', { class: 'li-body' }, h('span', { class: 'li-t' }, title), h('span', { class: 'li-s' }, sub)), h('span', { class: 'sw-state' }, on ? S.on : S.off), h('span', { class: 'switch', 'aria-hidden': 'true' }));
+}
+function screenReminders() {
+  const s = state.settings;
+  return h('div', { class: 'screen' }, topbar('more'), pageHead(S.remTitle, S.remLede),
+    h('div', {}, switchRow(S.remTasks, S.remTasksSub, s.nudgeTasks, () => { s.nudgeTasks = !s.nudgeTasks; persist(); render(); }, 'sw-tasks'),
+      h('div', { class: 'switch-row demo-off', 'data-demo-backup-reminder': '' }, h('span', { class: 'li-body' }, h('span', { class: 'li-t' }, S.remBackup), h('span', { class: 'li-s' }, S.demoFullOnly)))));
+}
+
+/* ---------- Settings: backup / restore / reset ---------- */
+function exportPayload() {
+  const data = clone(state); delete data.meta;
+  return { app: APP_ID, appVersion: APP_VERSION, schemaVersion: SCHEMA_VERSION, exportedAt: new Date().toISOString(), data };
+}
+function exportBackup() {
+  if (DEMO) { toast(S.demoFullOnly); return; }
+  try {
+    downloadText(JSON.stringify(exportPayload(), null, 2), 'adhd-cleaning-planner-backup-' + D.today() + '.json');
+  } catch (e) { toast(S.backupFail); return; }
+  state.settings.lastBackupAt = Date.now(); persist(); render(); toast(S.backupDone);
+}
+// Parses a backup (export envelope or a raw stored root) without touching current data.
+function parseBackup(text) {
+  if (!text || !text.trim()) return { ok: false, reason: 'empty' };
+  let obj; try { obj = JSON.parse(text); } catch (e) { return { ok: false, reason: 'json' }; }
+  if (!isObj(obj)) return { ok: false, reason: 'json' };
+  if (obj.app !== APP_ID) return { ok: false, reason: 'app' };
+  let root = obj;
+  if (isObj(obj.data)) {
+    if (!finite(obj.schemaVersion)) return { ok: false, reason: 'version' };
+    root = Object.assign({}, obj.data, { app: APP_ID, schemaVersion: obj.schemaVersion });
+  }
+  const res = validateData(root);
+  if (res.ok) res.exportedAt = typeof obj.exportedAt === 'string' ? obj.exportedAt : null;
+  return res;
+}
+function pickFile() {
+  return new Promise((resolve) => {
+    const inp = h('input', { type: 'file', accept: '.json,application/json,text/plain', style: 'display:none' });
+    inp.addEventListener('change', () => { const f = inp.files && inp.files[0]; inp.remove(); resolve(f || null); });
+    document.body.appendChild(inp); inp.click();
+  });
+}
+function readFile(file) {
+  return new Promise((resolve) => {
+    if (file.size > 10 * 1024 * 1024) return resolve({ error: 'big' });
+    const r = new FileReader();
+    r.onload = () => resolve({ text: String(r.result || '') });
+    r.onerror = () => resolve({ error: 'read' });
+    r.readAsText(file);
+  });
+}
+async function importFlow(fromRecovery) {
+  if (DEMO) { toast(S.demoFullOnly); return; }
+  const file = await pickFile(); if (!file) return;
+  const rf = await readFile(file);
+  if (rf.error) { toast(S.importBad(REASON_TEXT[rf.error])); return; }
+  const res = parseBackup(rf.text);
+  if (!res.ok) { toast(S.importBad(REASON_TEXT[res.reason] || S.whyJson)); return; }
+  await confirmAndReplace(res, fromRecovery, res.exportedAt ? new Date(res.exportedAt) : null);
+}
+async function confirmAndReplace(res, fromRecovery, madeAt) {
+  const ok = await openSheet((close) => [h('h2', { class: 'h2', id: 'sheet-title' }, S.previewTitle),
+    madeAt && !isNaN(madeAt) ? h('p', { class: 'muted' }, S.previewFrom(madeAt.toLocaleString())) : null,
+    h('p', { style: 'margin-top:8px;font-weight:600' }, S.previewCounts(res.counts)),
+    res.skipped ? h('p', { class: 'hint' }, S.previewSkipped(res.skipped)) : null,
+    res.repaired ? h('p', { class: 'hint' }, S.previewRepaired(res.repaired)) : null,
+    fromRecovery ? null : h('div', { class: 'callout', style: 'margin-top:12px' }, h('p', { class: 'small' }, S.previewWarn)),
+    h('div', { class: 'btn-row' }, h('button', { class: 'btn btn-primary', type: 'button', 'data-primary': true, onClick: () => close(true) }, S.replaceMine),
+      h('button', { class: 'btn btn-ghost', type: 'button', onClick: () => close(false) }, S.cancel))]);
+  if (!ok) return;
+  replaceAllData(res.data);
+}
+/* Safe replace: (1) keep a safety copy of current data, (2) write the new data,
+   (3) read it back to verify, (4) on any failure put the old data back. */
+function replaceAllData(newData) {
+  if (DEMO) { toast(S.demoFullOnly); return false; }
+  let prevRaw = null;
+  try { prevRaw = localStorage.getItem(KEY); } catch (e) { toast(S.restoreFailed); return false; }
+  if (prevRaw) {
+    try { localStorage.setItem(KEY_BEFORE_IMPORT, JSON.stringify({ savedAt: Date.now(), raw: prevRaw })); }
+    catch (e) { toast(S.safetyCopyFailed); return false; }
+  }
+  const next = clone(newData);
+  next.timerState = null; next.sessionState = {};  // stale sessions from another time/device are not restored
+  next.settings.onboarded = true;
+  reconcileStarters(next);
+  let prevRev = 0; try { prevRev = prevRaw ? (JSON.parse(prevRaw).meta || {}).rev || 0 : 0; } catch (e) { prevRev = 0; }
+  next.meta = { rev: Math.max(prevRev, state ? state.meta.rev : 0) + 1, updatedAt: Date.now() };
+  try {
+    localStorage.setItem(KEY, JSON.stringify(next));
+    const check = JSON.parse(localStorage.getItem(KEY));
+    if (!check || !check.meta || check.meta.rev !== next.meta.rev) throw new Error('verify');
+  } catch (e) {
+    try { if (prevRaw) localStorage.setItem(KEY, prevRaw); } catch (e2) { /* old data still intact in safety copy */ }
+    toast(S.restoreFailed); return false;
+  }
+  state = next; idxKey = ''; storageOk = true; recoveryMode = null;
+  hideBanner('save');
+  go('home'); render(); toast(S.restored);
+  return true;
+}
+function beforeImportInfo() {
+  try { const raw = localStorage.getItem(KEY_BEFORE_IMPORT); if (!raw) return null; const o = JSON.parse(raw); return isObj(o) && typeof o.raw === 'string' ? o : null; } catch (e) { return null; }
+}
+async function restoreBeforeImport() {
+  if (DEMO) { toast(S.demoFullOnly); return; }
+  const info = beforeImportInfo(); if (!info) return;
+  const res = parseBackup(info.raw);
+  if (!res.ok) { toast(S.importBad(REASON_TEXT[res.reason] || S.whyJson)); return; }
+  await confirmAndReplace(res, false, new Date(info.savedAt));
+}
+async function resetAll() {
+  const ok = await confirmSheet({ title: S.resetTitle, text: S.resetText, confirm: S.resetConfirm, danger: true, typeToConfirm: 'RESET' });
+  if (!ok) return;
+  try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_BEFORE_IMPORT); } catch (e) { /* handled by persist below */ }
+  state = freshState(); idxKey = '';
+  persist();
+  hideToast(); replaceRoute('home'); render(); toast(S.resetDone);
+}
+function screenSettings() {
+  const s = state.settings;
+  const bi = beforeImportInfo();
+  return h('div', { class: 'screen' }, topbar('more'), pageHead(S.settingsTitle),
+    h('section', { class: 'callout' }, h('h2', { class: 'h2', style: 'margin-bottom:6px' }, S.yourData), h('p', { class: 'small' }, S.dataNotice)),
+    demoHomeCard('settings'),
+    h('section', { class: 'card stack', 'data-demo-backup': '' }, h('h2', { class: 'h2' }, S.backupH), h('p', { class: 'muted' }, S.demoFullOnly),
+      h('button', { class: 'btn btn-primary', type: 'button', fk: 's-export', disabled: true, 'aria-describedby': 'demo-bk' }, icon('download'), S.downloadBackup), h('span', { class: 'sr-only', id: 'demo-bk' }, S.demoFullOnly)),
+    h('section', { class: 'card stack', 'data-demo-restore': '' }, h('h2', { class: 'h2' }, S.restoreH), h('p', { class: 'muted' }, S.demoFullOnly),
+      h('button', { class: 'btn btn-secondary', type: 'button', fk: 's-import', disabled: true, 'aria-describedby': 'demo-rs' }, icon('upload'), S.chooseBackup), h('span', { class: 'sr-only', id: 'demo-rs' }, S.demoFullOnly)),
+    h('section', { class: 'card stack' }, h('h2', { class: 'h2' }, S.resetH), h('p', { class: 'muted small' }, S.resetLede),
+      h('button', { class: 'btn btn-danger', type: 'button', fk: 's-reset', onClick: act(resetAll, 1200) }, S.resetBtn)),
+    h('section', { class: 'card' }, h('h2', { class: 'h2', style: 'margin-bottom:6px' }, S.aboutH), h('p', { class: 'muted small' }, S.aboutText)));
+}
+
+/* ---------- FREE DEMO helpers ----------
+   Usage is stored under its own key (DEMO_USAGE_KEY), separate from planner data, so Reset Demo,
+   deleting tasks or reloading can never give slots back. The number of customer tasks ever created
+   (deleted ones included) is also counted, and the higher of the two numbers is used. */
+const DEMO_USAGE_KEY = APP_ID + '__usage';
+let demoUsageMem = 0;   // fallback while browser storage is unavailable
+function demoStoredUsed() {
+  let n = demoUsageMem;
+  try { const raw = localStorage.getItem(DEMO_USAGE_KEY); if (raw) { const o = JSON.parse(raw); if (isObj(o) && finite(o.demoTasksCreated)) n = Math.max(n, Math.floor(o.demoTasksCreated)); } } catch (e) { /* keep in-memory value */ }
+  return n;
+}
+function demoUsed() { return Math.max(demoStoredUsed(), state ? state.tasks.filter((t) => !t.isStarter).length : 0); }
+function demoSlots() { return Math.max(0, DEMO_LIMIT - demoUsed()); }
+function demoRecordCreated(n) {
+  const v = demoUsed() + n;
+  demoUsageMem = Math.max(demoUsageMem, v);
+  try { localStorage.setItem(DEMO_USAGE_KEY, JSON.stringify({ demoTasksCreated: v })); } catch (e) { /* in-memory value still applies */ }
+}
+// Only a real Etsy listing URL activates the purchase buttons (no placeholder or homepage link).
+function demoUrlReady() { return /^https:\/\/(www\.)?etsy\.com\/([a-z]{2}(-[a-z]{2})?\/)?listing\/\d+([\/?#][^\s"'<>]*)?$/i.test(ETSY_LISTING_URL); }
+function ctaButton(cls, fk) {
+  if (demoUrlReady()) return h('a', { class: 'btn ' + cls, href: ETSY_LISTING_URL, target: '_blank', rel: 'noopener noreferrer', 'data-fk': fk, 'data-cta': '' }, S.demoCta);
+  return h('button', { class: 'btn ' + cls, type: 'button', fk, 'data-cta': '', 'data-cta-pending': '', onClick: () => toast(S.demoCtaPending) }, S.demoCta);
+}
+function demoHomeCard(where) {
+  const id = 'demo-cta-h-' + (where || 'home');
+  return h('section', { class: 'card card-sage demo-card', 'aria-labelledby': id, 'data-demo-card': where || 'home' },
+    h('p', { class: 'eyebrow' }, S.demoBadge),
+    h('h2', { class: 'h2', id, style: 'margin-top:4px' }, S.demoCtaSub),
+    h('p', { class: 'muted small', style: 'margin-top:6px' }, S.demoCardText),
+    h('p', { class: 'demo-slots', 'data-demo-slots': '' }, S.demoSlots(demoSlots())),
+    ctaButton('btn-primary', 'cta-' + (where || 'home')));
+}
+function demoLimitSheet() {
+  return openSheet((close) => [h('p', { class: 'eyebrow' }, S.demoBadge), h('h2', { class: 'h2', id: 'sheet-title', 'data-demo-limit': '' }, S.demoLimitTitle),
+    h('p', { class: 'muted' }, S.demoLimitText),
+    h('div', { class: 'btn-row' }, ctaButton('btn-primary', 'cta-limit'), h('button', { class: 'btn btn-ghost', type: 'button', 'data-primary': true, onClick: () => close(null) }, S.demoKeepExploring))]);
+}
+function demoLimitScreen() {
+  return h('div', { class: 'screen' }, topbar('tasks'),
+    h('section', { class: 'card card-sage demo-card', 'data-demo-limit': '' }, h('p', { class: 'eyebrow' }, S.demoBadge),
+      h('h1', { class: 'title', style: 'margin-top:6px' }, S.demoLimitTitle), h('p', { class: 'lede' }, S.demoLimitText),
+      ctaButton('btn-primary', 'cta-limit-page'),
+      h('button', { class: 'btn btn-quiet', type: 'button', onClick: () => replaceRoute('tasks') }, S.demoKeepExploring)));
+}
+function demoStarterEditScreen(t) {
+  return h('div', { class: 'screen' }, topbar('task/' + t.id),
+    h('section', { class: 'card card-sage', 'data-demo-starter-edit': '' }, h('p', { class: 'eyebrow' }, S.demoBadge),
+      h('h1', { class: 'title', style: 'margin-top:6px' }, S.demoStarterEditTitle), h('p', { class: 'lede' }, S.demoStarterEditText),
+      h('button', { class: 'btn btn-secondary', type: 'button', style: 'margin-top:14px', onClick: () => replaceRoute('task/' + t.id) }, S.demoBackToTask)));
+}
+
+/* ---------- Recovery (damaged stored data) ---------- */
+let recoveryMode = null; // { raw }
+function screenRecovery() {
+  const raw = recoveryMode.raw;
+  return h('div', { class: 'screen' }, pageHead(S.recTitle), h('div', { class: 'callout' }, h('p', {}, S.recText)),
+    h('div', { class: 'btn-row' },
+      h('button', { class: 'btn btn-primary', type: 'button', fk: 'r-dl', onClick: act(() => downloadText(raw, 'adhd-cleaning-planner-saved-data-' + D.today() + '.json')) }, icon('download'), S.recDownload),
+      h('button', { class: 'btn btn-secondary', type: 'button', fk: 'r-restore', onClick: act(() => importFlow(true), 1200) }, icon('upload'), S.recRestore),
+      h('button', { class: 'btn btn-ghost', type: 'button', fk: 'r-fresh', onClick: act(async () => {
+        const ok = await confirmSheet({ title: S.recFreshTitle, text: S.recFreshText, confirm: S.recFresh });
+        if (!ok) return;
+        try { stashDamaged(raw); } catch (e) { toast(S.safetyCopyFailed); return; }
+        try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+        state = freshState(); idxKey = ''; recoveryMode = null; persist(); replaceRoute('home'); render();
+      }) }, S.recFresh)));
+}
+function stashDamaged(raw) {
+  // keep at most the 2 most recent damaged copies
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf(KEY_DAMAGED_PREFIX) === 0) keys.push(k); }
+  keys.sort().slice(0, Math.max(0, keys.length - 1)).forEach((k) => localStorage.removeItem(k));
+  localStorage.setItem(KEY_DAMAGED_PREFIX + Date.now(), raw);
+}
+
+/* =====================================================================
+   15. NAVIGATION & RENDERING
+   ===================================================================== */
+const ROUTES = [
+  [/^home$/, screenHome], [/^help$/, screenHelp], [/^help\/result$/, screenRecResult],
+  [/^quick$/, screenQuick], [/^quick\/plan$/, screenQuickPlan],
+  [/^overwhelm$/, screenOverwhelm], [/^tiny$/, screenTiny], [/^minimum$/, screenMinimum], [/^enough$/, screenEnough], [/^done$/, screenDone],
+  [/^tasks$/, screenTasks], [/^task\/new$/, () => screenTaskForm(null)], [/^task\/([\w-]+)\/edit$/, (id) => screenTaskForm(id)], [/^task\/([\w-]+)$/, screenTask],
+  [/^areas$/, screenAreas], [/^area\/([\w-]+)$/, screenArea],
+  [/^more$/, screenMore], [/^schedule$/, screenSchedule], [/^timer$/, screenTimer], [/^progress$/, screenProgress],
+  [/^dump$/, screenDump], [/^reminders$/, screenReminders], [/^settings$/, screenSettings]
+];
+const NAV = [['home', 'home', S.nav.home], ['tasks', 'tasks', S.nav.tasks], ['areas', 'areas', S.nav.areas], ['more', 'more', S.nav.more]];
+function parseHash() {
+  const raw = location.hash.replace(/^#\/?/, '');
+  const qi = raw.indexOf('?');
+  const path = (qi >= 0 ? raw.slice(0, qi) : raw) || 'home';
+  return { path, q: new URLSearchParams(qi >= 0 ? raw.slice(qi + 1) : '') };
+}
+function go(path) { const target = '#/' + path; if (location.hash === target) render(); else location.hash = target; }
+// history.replaceState throws in some sandboxed/embedded viewers (e.g. about:srcdoc previews).
+// Fall back to a normal hash change there, which still routes correctly.
+function replaceHash(target) { try { history.replaceState(null, '', target); return true; } catch (e) { return false; } }
+function replaceRoute(path) { const target = '#/' + path; if (location.hash === target) { render(); return; } if (replaceHash(target)) render(); else location.hash = target; }
+function navGroup(path) {
+  const top = path.split('/')[0];
+  if (top === 'tasks' || top === 'task') return 'tasks';
+  if (top === 'areas' || top === 'area') return 'areas';
+  if (['home', 'help', 'quick', 'overwhelm', 'tiny', 'minimum', 'enough', 'done'].indexOf(top) >= 0) return 'home';
+  return 'more';
+}
+function drawNav(path) {
+  const g = navGroup(path), top = path.split('/')[0];
+  const bn = $('#bottomnav');
+  bn.replaceChildren.apply(bn, NAV.map(([id, ic, label]) => h('a', { href: '#/' + id, 'aria-current': g === id ? 'page' : null }, icon(ic), h('span', {}, label))));
+  const side = $('#sidebar');
+  const sideItems = NAV.slice(0, 3).map(([id, ic, label]) => h('a', { class: 'side-link', href: '#/' + id, 'aria-current': g === id ? 'page' : null }, icon(ic), label));
+  const moreItems = [['schedule', 'calendar'], ['timer', 'timer'], ['progress', 'chart'], ['dump', 'note'], ['reminders', 'bell'], ['settings', 'gear']]
+    .map(([id, ic]) => h('a', { class: 'side-link', href: '#/' + id, 'aria-current': top === id ? 'page' : null }, icon(ic), S.more[id][0]));
+  side.replaceChildren(h('div', { class: 'brand' }, S.appName, h('span', { class: 'demo-pill side-pill' }, S.demoBadge), h('small', {}, S.welcomeSub)), h('nav', { 'aria-label': 'Main' }, sideItems, h('div', { class: 'side-sep' }), moreItems));
+  const hideNav = !!recoveryMode || (state && !state.settings.onboarded);
+  bn.hidden = hideNav; side.hidden = hideNav;
+}
+function drawMinibar(path) {
+  const mb = $('#minibar'), ts = state && state.timerState;
+  const show = !!ts && path !== 'timer' && !recoveryMode;
+  document.body.classList.toggle('has-minibar', show);
+  if (!show) { mb.hidden = true; mb.replaceChildren(); return; }
+  mb.replaceChildren(h('button', { type: 'button', 'aria-label': S.returnTimer + ': ' + ts.label, onClick: () => go('timer') }, icon('timer'),
+    h('span', { class: 'mb-label' }, ts.label), h('span', { class: 'mb-time', 'data-timer-time': '' }, Timer.displayText(ts))));
+  mb.hidden = false;
+}
+let lastDay = null;
+function checkDay() {
+  const t = D.today();
+  const changed = !!lastDay && lastDay !== t;
+  if (changed) { cleanSessionState(); ui.quickPlan = null; }
+  lastDay = t;
+  return changed;
+}
+function render() {
+  if (!state && !recoveryMode) return;
+  const { path, q } = parseHash();
+  ui.q = q;
+  const main = $('#main');
+  const active = document.activeElement;
+  const fk = active && main.contains(active) ? active.getAttribute('data-fk') : null;
+  const samePath = ui.lastPath === path;
+  let node;
+  try {
+    if (recoveryMode) node = screenRecovery();
+    else {
+      checkDay();
+      if (state.timerState) Timer.checkEnd();
+      let fn = null, params = [];
+      for (const [re, f] of ROUTES) { const m = path.match(re); if (m) { fn = f; params = m.slice(1); break; } }
+      if (!state.settings.onboarded) fn = screenWelcome;
+      node = fn ? fn.apply(null, params) : h('div', { class: 'screen' }, h('p', { class: 'empty' }, S.notFound), h('button', { class: 'btn btn-secondary', type: 'button', onClick: () => go('home') }, S.backHome));
+    }
+  } catch (e) {
+    handleError(e);
+    node = h('div', { class: 'screen' }, h('p', { class: 'empty' }, S.genericError), h('button', { class: 'btn btn-secondary', type: 'button', onClick: () => go('home') }, S.backHome));
+  }
+  main.replaceChildren(node);
+  // A focused input removed by re-render fires no blur on some browsers (e.g. iOS Safari): clear typing mode.
+  const ae = document.activeElement;
+  if (!ae || !ae.matches || !ae.matches(TYPING_SEL) || !document.body.contains(ae)) document.body.classList.remove('typing');
+  drawNav(path);
+  drawMinibar(path);
+  syncTicker();
+  if (!samePath) {
+    window.scrollTo(0, 0);
+    const hd = main.querySelector('h1');
+    if (hd && ui.lastPath !== undefined) { hd.setAttribute('tabindex', '-1'); try { hd.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+    ui.lastPath = path;
+  } else if (fk) {
+    const el = main.querySelector('[data-fk="' + fk.replace(/["\\]/g, '') + '"]');
+    if (el) try { el.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+  }
+}
+function handleError(err) {
+  // Intentional, documented: handled errors are logged as warnings, never thrown to the console as errors.
+  try { console.warn('[ADHD Cleaning Planner] handled error:', err && err.message ? err.message : err); } catch (e) { /* ignore */ }
+  try { toast(S.genericError); } catch (e) { /* ignore */ }
+}
+window.addEventListener('error', (e) => { e.preventDefault(); handleError(e.error || e.message); });
+window.addEventListener('unhandledrejection', (e) => { e.preventDefault(); handleError(e.reason); });
+window.addEventListener('hashchange', () => { if (closeCurrentSheet) closeCurrentSheet(null); render(); });
+// Routes holding unsaved typing: never re-render them just because the window regained focus.
+function isFormRoute() { const p = parseHash().path; return p === 'task/new' || /\/edit$/.test(p); }
+function onReturn() {
+  if (!state || recoveryMode) return;
+  if (document.visibilityState === 'hidden') return;
+  const dayChanged = checkDay();
+  const ended = state.timerState ? Timer.checkEnd() : false;
+  if (dayChanged || ended || !isFormRoute()) render(); else updateTimeDisplays();
+}
+document.addEventListener('visibilitychange', onReturn);
+window.addEventListener('focus', onReturn);
+window.addEventListener('pageshow', (e) => { if (e.persisted) onReturn(); });
+// Hide the bottom navigation and timer bar while typing so the keyboard never covers inputs.
+const TYPING_SEL = 'input:not([type=checkbox]):not([type=file]):not([type=radio]),textarea,select';
+document.addEventListener('focusin', (e) => { if (e.target.matches && e.target.matches(TYPING_SEL) && window.innerWidth < 900) document.body.classList.add('typing'); });
+document.addEventListener('focusout', () => setTimeout(() => { const a = document.activeElement; if (!a || !a.matches || !a.matches(TYPING_SEL)) document.body.classList.remove('typing'); }, 60));
+
+/* =====================================================================
+   16. BOOT — never silently resets stored data.
+   ===================================================================== */
+function boot() {
+  $('#demobar').replaceChildren(h('span', { class: 'demo-pill' }, S.demoBadge), h('span', {}, S.demoTagline));
+  if (!storageAvailable()) {
+    storageOk = false;
+    state = freshState();
+    showBanner('storage', S.storageUnavailable);
+  } else {
+    let raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) { raw = null; }
+    if (raw == null) {
+      state = freshState();
+      persist();
+    } else {
+      let obj = null, parsed = true;
+      try { obj = JSON.parse(raw); } catch (e) { parsed = false; }
+      const res = parsed ? validateData(obj) : { ok: false };
+      if (!res.ok) {
+        recoveryMode = { raw };
+      } else {
+        state = res.data;
+        let changed = false;
+        if (res.skipped > 0) { try { stashDamaged(raw); } catch (e) { /* ignore */ } changed = true; setTimeout(() => toast(S.damagedSetAside(res.skipped)), 300); }
+        if (res.repaired > 0) changed = true; // persist repairs (e.g. tasks of a vanished area → Unsorted)
+        if (reconcileStarters(state)) changed = true;
+        cleanSessionState();
+        if (changed) persist();
+      }
+    }
+  }
+  if (!location.hash) replaceHash('#/home'); // if not allowed, the router already defaults to Home
+  render();
+}
+boot();
+})();
+</script>
+</body>
+</html>
